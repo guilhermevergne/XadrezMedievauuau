@@ -1,25 +1,28 @@
 package xadrezmedievauuau;
 
+import java.io.FileNotFoundException;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
     protected int Hpmax, Hp;
     protected Casas_asas pos;
-    protected boolean canmove, canatack, canskill;
+    protected boolean moveAble, atackAble, skillAble;
     protected String nome;
     protected int player;
     protected String path;
     @FXML ImageView png;
-    public Piece_ece(String path, int Hpmax, String nome, int player) {
+    public Piece_ece(String path, int Hpmax, String nome, int player, Casas_asas pos) {
         super(path);
         this.Hpmax = Hpmax;
         this.Hp = Hpmax;
-        this.canmove = false;
-        this.canatack = false;
-        this.canskill = false;
+        this.moveAble = false;
+        this.atackAble = false;
+        this.skillAble = false;
         this.nome = nome;
         this.player = player;
+        this.pos = pos;
     }
     
     
@@ -39,33 +42,33 @@ public abstract class Piece_ece extends ImageView{
         this.pos = pos;
     }
 
-    public boolean isCanmove() {
-        return canmove;
+    public boolean ismoveAble() {
+        return moveAble;
     }
 
-    public void setCanmove(boolean canmove) {
-        this.canmove = canmove;
+    public void setmoveAble(boolean canmove) {
+        this.moveAble = canmove;
     }
 
-    public boolean isCanatack() {
-        return canatack;
+    public boolean isatackAble() {
+        return atackAble;
     }
 
-    public void setCanatack(boolean canatack) {
-        this.canatack = canatack;
+    public void setatackAble(boolean canatack) {
+        this.atackAble = canatack;
     }
 
-    public boolean isCanskill() {
-        return canskill;
+    public boolean isskillAble() {
+        return skillAble;
     }
 
-    public void setCanskill(boolean canskill) {
-        this.canskill = canskill;
+    public void setskillAble(boolean canskill) {
+        this.skillAble = canskill;
     }
     
-    abstract void moving();
-    abstract void atack();
-    abstract void poderzinho();
+    abstract boolean moving(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;
+    abstract boolean atack(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;
+    abstract boolean poderzinho()throws FileNotFoundException;
     
     
 }

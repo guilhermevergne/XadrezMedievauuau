@@ -65,6 +65,8 @@ public class FXMLDocumentController implements Initializable {
         table = new Casas_asas[tam][tam];
         Stage stage = new Stage();
         GridPane tab = new GridPane();
+        
+        
         for (int i = 0; i <= tam; i++) {
             
             RowConstraints linha = new RowConstraints();
@@ -87,16 +89,19 @@ public class FXMLDocumentController implements Initializable {
         
         for(int i=0; i<tam; i++){
             for(int j=0;j<tam;j++){
-                              
                 if((i%2==0 && j%2!=0) || (i%2!=0 && j%2==0)){
+                    //System.out.println(i+"meucu"+j);
                     table[j][i]= new Casas_asas( Color.GRAY, j, i, width, height);
-                    //addEventesToTable(table[j][i]);
+                    addEventesToTable(table[j][i]);
                     table[j][i].setPiece(null);
+                    //System.out.println(i+"meucu"+j);
                 }
                 else {
+                    //System.out.println(i+"minhapica"+j);
                     table[j][i]= new Casas_asas(Color.BISQUE, j, i, width, height);
-                    //addEventesToTable(table[j][i]);
+                    addEventesToTable(table[j][i]);
                     table[j][i].setPiece(null);
+                    //System.out.println(i+"minhapica"+j);
                 }
                 //GridPane.setConstraints(table[j][i], j, i);
                 //tab.getChildren().addAll(table[j][i]);
@@ -105,6 +110,15 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         //addPieces();
+        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[0][0], 50);
+        tab.add(xu1, 0, 0);
+        table[0][0].setPiece(xu1);
+        addEventesToPiece(xu1);
+        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[1][0], 50);
+        tab.add(xu2, 1, 0);
+        table[1][0].setPiece(xu2);
+        addEventesToPiece(xu2);
+        
         Scene scene = new Scene(tab, width*tam, height*tam);
         stage.setScene(scene) ;
         stage.show();
