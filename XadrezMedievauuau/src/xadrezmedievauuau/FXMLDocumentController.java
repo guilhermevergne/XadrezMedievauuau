@@ -44,6 +44,7 @@ public class FXMLDocumentController implements Initializable {
     int height = 100;
     private Casas_asas tclicked;
     private Piece_ece actualPiece, attackedPiece;
+    boolean attacking;
     
     
     
@@ -177,18 +178,26 @@ public class FXMLDocumentController implements Initializable {
             public void handle(MouseEvent event) {
                 System.out.println("You clicked a Piece!"); 
                 if(event.getButton()== MouseButton.PRIMARY){
-                    if(actualPiece==null)actualPiece=p;
-                    else{
+                    if(actualPiece==null){
+                        if(!attacking)
+                            actualPiece=p;
+                        //pinta possiveis movimentos
+                    }
+                    else if(p == actualPiece){
+                        //pinta possiveis ataques
+                        attacking = true;
+                    }
+                    else if(attacking){
                         attackedPiece = p;
                         tclicked = attackedPiece.getPos();
-                        Move();
+                        Attack();
                     }
                     
                 }
                 if(event.getButton()== MouseButton.SECONDARY){
                     if(actualPiece!=null)attackedPiece=p;
                     if(actualPiece!=null && attackedPiece!=null){
-                        Attack();
+                        Poderzinho();
                     }
                     
                 }
@@ -203,10 +212,15 @@ public class FXMLDocumentController implements Initializable {
     
     
     void Attack(){
+        attacking = false;
         System.out.println("Atacou");
     }
     void Move(){
         //piece.moving(p, table, tam, tam);
         System.out.println("Moveu");
+    }
+    void Poderzinho(){
+        
+        System.out.println("Spellou");
     }
 }
