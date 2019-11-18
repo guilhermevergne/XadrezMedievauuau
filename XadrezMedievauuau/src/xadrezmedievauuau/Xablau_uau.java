@@ -1,12 +1,14 @@
 package xadrezmedievauuau;
 
 import java.io.FileNotFoundException;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 
 public class Xablau_uau extends Piece_ece{
     int Mpmax, Mp;
-    public Xablau_uau(String path, int Hpmax, String nome, int player, Casas_asas pos, int Mpmax){
+    public Xablau_uau(String path, int Hpmax, String nome, int player, Casas_asas pos, int Mpmax, int width, int height){
         super(path, Hpmax, nome, player, pos);
+        //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
     }

@@ -4,19 +4,25 @@ import java.awt.SystemColor;
 import static java.awt.SystemColor.window;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -69,7 +75,9 @@ public class FXMLDocumentController implements Initializable {
         
         for (int i = 0; i <= tam; i++) {
             
-            RowConstraints linha = new RowConstraints();
+            RowConstraints linha;
+            linha = new RowConstraints(height, height, height, Priority.ALWAYS, VPos.CENTER, true);
+            
             
             linha.setPrefHeight(height);
             
@@ -79,7 +87,8 @@ public class FXMLDocumentController implements Initializable {
         
         for (int i = 0; i <= tam; i++) {
             
-            ColumnConstraints coluna = new ColumnConstraints();
+            ColumnConstraints coluna;
+            coluna = new ColumnConstraints(width, width, width, Priority.ALWAYS, HPos.CENTER, true);
             
             coluna.setPrefWidth(width);
             
@@ -110,14 +119,25 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         //addPieces();
-        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[0][0], 50);
-        tab.add(xu1, 0, 0);
-        table[0][0].setPiece(xu1);
+        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[tam-1][1], 50, width, height);
+        tab.add(xu1, tam-1, 1);
+        table[tam-1][1].setPiece(xu1);
         addEventesToPiece(xu1);
-        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[1][0], 50);
-        tab.add(xu2, 1, 0);
-        table[1][0].setPiece(xu2);
+        
+        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[tam-2][0], 50, width, height);
+        tab.add(xu2, tam-2, 0);
+        table[tam-2][0].setPiece(xu2);
         addEventesToPiece(xu2);
+        
+        Xablau_uau x1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[1][tam-1], 50, width, height);
+        tab.add(x1, 1, tam-1);
+        table[1][tam-1].setPiece(x1);
+        addEventesToPiece(x1);
+        
+        Xablau_uau x2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[0][tam-2], 50, width, height);
+        tab.add(x2, 0, tam-2);
+        table[0][tam-2].setPiece(x2);
+        addEventesToPiece(x2);
         
         Scene scene = new Scene(tab, width*tam, height*tam);
         stage.setScene(scene) ;
@@ -186,6 +206,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Atacou");
     }
     void Move(){
+        //piece.moving(p, table, tam, tam);
         System.out.println("Moveu");
     }
 }
