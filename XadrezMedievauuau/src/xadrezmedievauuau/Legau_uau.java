@@ -37,8 +37,9 @@ public class Legau_uau extends Piece_ece{
         return false;
     }
     
+    @Override
     boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y){
-        if(abs(x - this.pos.getX() + y - this.pos.getY()) <= 3){
+        if(abs(x - this.pos.getX()) + abs(y - this.pos.getY()) <= 3){
         return true;
         }
         return false;

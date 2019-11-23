@@ -25,19 +25,19 @@ public class Xablau_uau extends Piece_ece{
         if(ismoveAble()){
             if(canMove(p, table , x , y)){
                 pos.setPiece(null);
-                pos.setPiece(null);
                 p.getChildren().remove(this);
                 p.add(this,x,y);
                 table[x][y].setPiece(this);
-                pos = table[x][y];   
+                pos = table[x][y];
                 return true;
             }
         }
         return false;
     }
     
+    @Override
     boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException{
-        if(abs(x - this.pos.getposX()) + abs(y - this.pos.getposY()) <= 3){
+        if(abs(x - this.pos.getposX()) + abs(y - this.pos.getposY()) <= 3 && table[x][y].getPiece() == null){
         return true;
         }
         return false;

@@ -166,12 +166,14 @@ public class FXMLDocumentController implements Initializable {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    if(attacking && tclicked.getPiece() != null){
+                    if (attacking && tclicked.getPiece() != null) {
                         try {
                             Attack();
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                    } else {
+                        actualPiece = null;
                     }
                 }
                 if (event.getButton() == MouseButton.SECONDARY) {
@@ -201,7 +203,11 @@ public class FXMLDocumentController implements Initializable {
                         moving = true;
                         spelling = false;
                         attacking = false;
-                        //pinta possiveis movimentos
+                        try {
+                            pintarMovimento();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } else if (p == actualPiece) {
                         //pinta possiveis ataques e despintar movimentos
                         moving = false;
@@ -224,8 +230,7 @@ public class FXMLDocumentController implements Initializable {
                         spelling = true;
                         attacking = false;
                         //pintar alcance da habilidade e despintar os outros
-                    }
-                    else if (actualPiece != null && spelling) {
+                    } else if (actualPiece != null && spelling) {
                         try {
                             Poderzinho(actualPiece.getPos());
                         } catch (FileNotFoundException ex) {
@@ -241,15 +246,45 @@ public class FXMLDocumentController implements Initializable {
         p.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, eventHandlerPiece);
     }
 
+    void repintar() throws FileNotFoundException {
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j < tam; j++) {
+                if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
+                    table[j][i].setFill(Color.GRAY);
+                } else {
+                    table[j][i].setFill(Color.BISQUE);
+                }
+
+            }
+        }
+    }
+
+    void pintarMovimento() throws FileNotFoundException {
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j < tam; j++) {
+                if (actualPiece.canMove(tab, table, j, i)) {
+                    if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
+                        table[j][i].setFill(Color.AQUAMARINE);
+                    } else {
+                        table[j][i].setFill(Color.AQUA);
+                    }
+                }
+
+            }
+        }
+    }
+
     void Attack() throws FileNotFoundException {
         System.out.println("Atacou");
-        
+
+        repintar();
         actualPiece = null;
         attacking = false;
     }
 
     void Move() throws FileNotFoundException {
         actualPiece.moving(tab, table, tclicked.getposX(), tclicked.getposY());
+        repintar();
         actualPiece = null;
         moving = false;
     }
@@ -257,7 +292,7 @@ public class FXMLDocumentController implements Initializable {
     void Poderzinho(Casas_asas target) throws FileNotFoundException {
         actualPiece.poderzinho(target);
         System.out.println("Spellou");
-        
+        repintar();
         actualPiece = null;
         spelling = false;
     }
