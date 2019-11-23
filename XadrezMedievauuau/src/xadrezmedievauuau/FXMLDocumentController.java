@@ -2,9 +2,12 @@ package xadrezmedievauuau;
 
 import java.awt.SystemColor;
 import static java.awt.SystemColor.window;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -45,11 +48,12 @@ public class FXMLDocumentController implements Initializable {
     private Casas_asas tclicked;
     private Piece_ece actualPiece, attackedPiece;
     boolean attacking;
+    GridPane tab;
     
     
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction(ActionEvent event)  throws FileNotFoundException{
         tam = Integer.parseInt(Tam.getText());
         width = Integer.parseInt(Width.getText());
         height = Integer.parseInt(Height.getText());
@@ -63,15 +67,15 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
     
-    void startgame(int tam){
+    void startgame(int tam) throws FileNotFoundException{
         //setPlayer();
         makeTable(tam);
     }
     
-    void makeTable(int tam){
+    void makeTable(int tam) throws FileNotFoundException{
         table = new Casas_asas[tam][tam];
         Stage stage = new Stage();
-        GridPane tab = new GridPane();
+        tab = new GridPane();
         
         
         for (int i = 0; i <= tam; i++) {
@@ -146,22 +150,30 @@ public class FXMLDocumentController implements Initializable {
     }
     
     //eventos relativos ao tabuleiro
-    public void addEventesToTable(Casas_asas t1){
+    public void addEventesToTable(Casas_asas t1) throws FileNotFoundException{
         EventHandler<javafx.scene.input.MouseEvent> eventHandler;
         eventHandler = new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                tclicked= (Casas_asas) event.getSource();
+                tclicked = (Casas_asas) event.getSource();
                 System.out.println(tclicked.getposX()+" , "+tclicked.getposY());
                 if(tclicked.getPiece()!=null)System.out.println("Has Piece."); 
                 if(event.getButton()== MouseButton.PRIMARY){
                     System.out.println("Primary.");
-                    if(actualPiece!=null)Move();
+                    if(actualPiece!=null)try {
+                        Move();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if(event.getButton()== MouseButton.SECONDARY){
                     
                     if(actualPiece!=null && attackedPiece!=null){
-                        Attack();
+                        try {
+                            Attack();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     
                 }
@@ -172,7 +184,7 @@ public class FXMLDocumentController implements Initializable {
         };
         t1.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, eventHandler);
     }
-    public void addEventesToPiece(Piece_ece p){
+    public void addEventesToPiece(Piece_ece p) throws FileNotFoundException{
         EventHandler<javafx.scene.input.MouseEvent> eventHandlerPiece = new EventHandler<javafx.scene.input.MouseEvent>() { 
             @Override
             public void handle(MouseEvent event) {
@@ -190,14 +202,22 @@ public class FXMLDocumentController implements Initializable {
                     else if(attacking){
                         attackedPiece = p;
                         tclicked = attackedPiece.getPos();
-                        Attack();
+                        try {
+                            Attack();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     
                 }
                 if(event.getButton()== MouseButton.SECONDARY){
                     if(actualPiece!=null)attackedPiece=p;
                     if(actualPiece!=null && attackedPiece!=null){
-                        Poderzinho();
+                        try {
+                            Poderzinho();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     
                 }
@@ -211,15 +231,15 @@ public class FXMLDocumentController implements Initializable {
     
     
     
-    void Attack(){
+    void Attack() throws FileNotFoundException{
         attacking = false;
         System.out.println("Atacou");
     }
-    void Move(){
-        //piece.moving(p, table, tam, tam);
+    void Move() throws FileNotFoundException{
+        actualPiece.moving(tab, table, tclicked.getposX(), tclicked.getposY());
         System.out.println("Moveu");
     }
-    void Poderzinho(){
+    void Poderzinho() throws FileNotFoundException{
         
         System.out.println("Spellou");
     }

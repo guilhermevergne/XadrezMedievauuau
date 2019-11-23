@@ -1,6 +1,7 @@
 package xadrezmedievauuau;
 
 import java.io.FileNotFoundException;
+import static java.lang.Math.abs;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 
@@ -11,6 +12,7 @@ public class Xablau_uau extends Piece_ece{
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
+        moveAble = true;
     }
 
     
@@ -27,16 +29,19 @@ public class Xablau_uau extends Piece_ece{
                 p.getChildren().remove(this);
                 p.add(this,x,y);
                 table[x][y].setPiece(this);
-                pos = table[x][y];      
+                pos = table[x][y];   
+                System.out.println("Deu bom");
                 return true;
             }
         }
         return false;
     }
     
-    boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y){
-        
+    boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException{
+        if(abs(x - this.pos.getX() + y - this.pos.getY()) <= 3){
         return true;
+        }
+        return false;
     }
 
     @Override
