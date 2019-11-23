@@ -122,12 +122,12 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         //addPieces();
-        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[tam - 1][1], 50, width, height);
+        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 0, table[tam - 1][1], 50, width, height);
         tab.add(xu1, tam - 1, 1);
         table[tam - 1][1].setPiece(xu1);
         addEventesToPiece(xu1);
 
-        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[tam - 2][0], 50, width, height);
+        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 0, table[tam - 2][0], 50, width, height);
         tab.add(xu2, tam - 2, 0);
         table[tam - 2][0].setPiece(xu2);
         addEventesToPiece(xu2);
