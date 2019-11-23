@@ -50,7 +50,7 @@ public class Legau_uau extends Piece_ece{
     }
 
     @Override
-    boolean poderzinho() throws FileNotFoundException {
+    boolean poderzinho(Casas_asas target) throws FileNotFoundException {
         return true;
     }
     

@@ -30,7 +30,6 @@ public class Xablau_uau extends Piece_ece{
                 p.add(this,x,y);
                 table[x][y].setPiece(this);
                 pos = table[x][y];   
-                System.out.println("Deu bom");
                 return true;
             }
         }
@@ -38,7 +37,7 @@ public class Xablau_uau extends Piece_ece{
     }
     
     boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException{
-        if(abs(x - this.pos.getX() + y - this.pos.getY()) <= 3){
+        if(abs(x - this.pos.getposX()) + abs(y - this.pos.getposY()) <= 3){
         return true;
         }
         return false;
@@ -50,7 +49,7 @@ public class Xablau_uau extends Piece_ece{
     }
 
     @Override
-    boolean poderzinho() throws FileNotFoundException {
+    boolean poderzinho(Casas_asas target) throws FileNotFoundException {
         return true;
     }
     
