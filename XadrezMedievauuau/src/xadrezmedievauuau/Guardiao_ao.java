@@ -17,6 +17,7 @@ public class Guardiao_ao extends Piece_ece {
     public Guardiao_ao(String path, int Hpmax, String nome, int player, Casas_asas pos, int width, int height){
         super(path, Hpmax, nome, player, pos);
         //setImage(new Image(path, width, height, true, true));
+        DMG = 10;
     }
     
     

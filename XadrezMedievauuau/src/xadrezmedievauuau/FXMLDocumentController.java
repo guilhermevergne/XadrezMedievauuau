@@ -50,7 +50,7 @@ public class FXMLDocumentController implements Initializable {
     int width = 100;
     int height = 100;
     private Casas_asas tclicked;
-    private Piece_ece actualPiece, attackedPiece;
+    private Piece_ece actualPiece, attackedPiece, selectedPiece;
     boolean attacking, spelling, moving;
     GridPane tab;
 
@@ -118,8 +118,12 @@ public class FXMLDocumentController implements Initializable {
         }
         //addPieces();
         
+        //LEGAUS
+        
+        //GUARDIAOS
+        
         //GUERREROS
-        makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "jin", 0, tam -2, 1, 0);
+        makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "jin", 0, tam -2, 1, 0);
         
         //XABLAUS 
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme", 0, tam - 1, 1, 50);
@@ -144,14 +148,16 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Has Piece.");
                 }
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    if (moving) {
+                    if (moving && (selectedPiece == null || selectedPiece == actualPiece)) {
+                        selectedPiece = actualPiece;
                         try {
                             Move();
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    if (attacking && tclicked.getPiece() != null) {
+                    if (attacking && tclicked.getPiece() != null && (actualPiece == selectedPiece || selectedPiece == null)) {
+                        selectedPiece = actualPiece;
                         try {
                             Attack();
                         } catch (FileNotFoundException ex) {
@@ -160,16 +166,24 @@ public class FXMLDocumentController implements Initializable {
                     } else {
                         actualPiece = null;
                     }
+                    moving = false;
+                    attacking = false;
+                    spelling = false;
+                    try {
+                        repintar();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if (event.getButton() == MouseButton.SECONDARY) {
-                    if (spelling) {
+                    if (spelling && (actualPiece == selectedPiece || selectedPiece == null)) {
+                        selectedPiece = actualPiece;
                         try {
                             Poderzinho(tclicked);
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-
                 }
 
             }
@@ -181,9 +195,9 @@ public class FXMLDocumentController implements Initializable {
         EventHandler<javafx.scene.input.MouseEvent> eventHandlerPiece = new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("You clicked a Piece!");
+                //System.out.println("You clicked a Piece!");
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    if (actualPiece == null) {
+                    if (actualPiece == null || (actualPiece == p && (attacking == true || spelling == true))) {
                         try {
                             repintar();
                         } catch (FileNotFoundException ex) {
@@ -198,7 +212,7 @@ public class FXMLDocumentController implements Initializable {
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else if (p == actualPiece) {
+                    } else if (p == actualPiece && moving == true) {
                         try {
                             repintar();
                         } catch (FileNotFoundException ex) {
@@ -212,7 +226,7 @@ public class FXMLDocumentController implements Initializable {
                         moving = false;
                         spelling = false;
                         attacking = true;
-                    } else if (attacking) {
+                    } else if (attacking && p.player != actualPiece.player) {
                         attackedPiece = p;
                         tclicked = attackedPiece.getPos();
                         try {
@@ -289,16 +303,18 @@ public class FXMLDocumentController implements Initializable {
 
     void Attack() throws FileNotFoundException {
         System.out.println("Atacou");
-
+        actualPiece.atack(tab, table, tclicked.getposX(), tclicked.getposY());
         repintar();
         actualPiece = null;
+        tclicked = null;
         attacking = false;
     }
 
     void Move() throws FileNotFoundException {
-        actualPiece.moving(tab, table, tclicked.getposX(), tclicked.getposY());
+        selectedPiece.moving(tab, table, tclicked.getposX(), tclicked.getposY());
         repintar();
         actualPiece = null;
+        tclicked = null;
         moving = false;
     }
 

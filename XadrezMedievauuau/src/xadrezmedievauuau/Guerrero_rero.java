@@ -18,6 +18,7 @@ public class Guerrero_rero extends Piece_ece {
         super(path, Hpmax, nome, player, pos);
         //setImage(new Image(path, width, height, true, true));
         moveAble = true;
+        DMG = 25;
     }
     
     

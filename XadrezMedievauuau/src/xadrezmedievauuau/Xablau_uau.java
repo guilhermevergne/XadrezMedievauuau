@@ -15,6 +15,7 @@ public class Xablau_uau extends Piece_ece {
         this.Mpmax = Mpmax;
         Mp = 0;
         moveAble = true;
+        DMG = 25;
     }
 
     @Override
@@ -68,7 +69,13 @@ public class Xablau_uau extends Piece_ece {
 
     @Override
     boolean atack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
-        return true;
+        if(canAttack(p, table, x, y)){
+            if(table[x][y].getPiece() != null && table[x][y].getPiece().player != player){
+                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -79,37 +86,36 @@ public class Xablau_uau extends Piece_ece {
     @Override
     boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
         int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
-        if (table[x][y].getPiece() == null/* && table[x][y].getPiece().getPlayer() != player*/) {
-            if (abs(dx) <= 1 && abs(dy) <= 1) {
+
+        if (abs(dx) <= 1 && abs(dy) <= 1) {
+            return true;
+        }
+        if (player == 0) {
+            if ((dx == -2 && dy == 0) || (dx == 0 && dy == 2)) {
                 return true;
             }
-            if (player == 0) {
-                if ( (dx == -2 && dy == 0) || (dx == 0 && dy == 2) ) {
-                    return true;
-                }
-                if (dy < 0 && dy >= -3 && (dx == -1 || dx == 0 || dx == 1)) {
-                    return true;
-                }
-                if(dx > 0 && dx <= 3 && (dy == -1 || dy == 0 || dy == 1)){
-                    return true;
-                }
-                if(dx == 2 && dy == -2){
-                    return true;
-                }
+            if (dy < 0 && dy >= -3 && (dx == -1 || dx == 0 || dx == 1)) {
+                return true;
             }
-            if (player == 1) {
-                if ( (dx == 2 && dy == 0) || (dx == 0 && dy == -2) ) {
-                    return true;
-                }
-                if (dy > 0 && dy <= 3 && (dx == -1 || dx == 0 || dx == 1)) {
-                    return true;
-                }
-                if(dx < 0 && dx >= -3 && (dy == -1 || dy == 0 || dy == 1)){
-                    return true;
-                }
-                if(dx == -2 && dy == 2){
-                    return true;
-                }
+            if (dx > 0 && dx <= 3 && (dy == -1 || dy == 0 || dy == 1)) {
+                return true;
+            }
+            if (dx == 2 && dy == -2) {
+                return true;
+            }
+        }
+        if (player == 1) {
+            if ((dx == 2 && dy == 0) || (dx == 0 && dy == -2)) {
+                return true;
+            }
+            if (dy > 0 && dy <= 3 && (dx == -1 || dx == 0 || dx == 1)) {
+                return true;
+            }
+            if (dx < 0 && dx >= -3 && (dy == -1 || dy == 0 || dy == 1)) {
+                return true;
+            }
+            if (dx == -2 && dy == 2) {
+                return true;
             }
         }
         return false;

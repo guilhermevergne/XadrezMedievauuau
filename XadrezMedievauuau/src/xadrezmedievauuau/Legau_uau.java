@@ -12,6 +12,7 @@ public class Legau_uau extends Piece_ece{
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
+        DMG = 10;
     }
 
     

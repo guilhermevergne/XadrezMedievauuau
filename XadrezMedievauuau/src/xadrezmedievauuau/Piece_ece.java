@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
-    protected int Hpmax, Hp;
+    protected int Hpmax, Hp, DMG;
     protected Casas_asas pos;
     protected boolean moveAble, atackAble, skillAble;
     protected String nome;
