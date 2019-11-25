@@ -39,24 +39,27 @@ public class Xablau_uau extends Piece_ece {
             if (abs(dx) <= 1 && abs(dy) <= 1) {
                 return true;
             }
-            if(player == 0){
-                if(dx == -2){
-                    if(dy < 2 && dy >= 0)
+            if (player == 0) {
+                if (dx == -2) {
+                    if (dy < 2 && dy >= 0) {
                         return true;
+                    }
                 }
-                if(dy == 2){
-                    if(dx > -2 && dx <= 0)
+                if (dy == 2) {
+                    if (dx > -2 && dx <= 0) {
                         return true;
+                    }
                 }
             }
-            if(player == 1){
-                if(dx == 2){
-                    if(dy > -2 && dy <= 0)
+            if (player == 1) {
+                if (dx == 2) {
+                    if (dy > -2 && dy <= 0) {
                         return true;
-                }
-                else if(dy == -2){
-                    if(dx < 2 && dx >= 0)
+                    }
+                } else if (dy == -2) {
+                    if (dx < 2 && dx >= 0) {
                         return true;
+                    }
                 }
             }
         }
@@ -71,6 +74,50 @@ public class Xablau_uau extends Piece_ece {
     @Override
     boolean poderzinho(Casas_asas target) throws FileNotFoundException {
         return true;
+    }
+
+    @Override
+    boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
+        if (table[x][y].getPiece() == null/* && table[x][y].getPiece().getPlayer() != player*/) {
+            if (abs(dx) <= 1 && abs(dy) <= 1) {
+                return true;
+            }
+            if (player == 0) {
+                if ( (dx == -2 && dy == 0) || (dx == 0 && dy == 2) ) {
+                    return true;
+                }
+                if (dy < 0 && dy >= -3 && (dx == -1 || dx == 0 || dx == 1)) {
+                    return true;
+                }
+                if(dx > 0 && dx <= 3 && (dy == -1 || dy == 0 || dy == 1)){
+                    return true;
+                }
+                if(dx == 2 && dy == -2){
+                    return true;
+                }
+            }
+            if (player == 1) {
+                if ( (dx == 2 && dy == 0) || (dx == 0 && dy == -2) ) {
+                    return true;
+                }
+                if (dy > 0 && dy <= 3 && (dx == -1 || dx == 0 || dx == 1)) {
+                    return true;
+                }
+                if(dx < 0 && dx >= -3 && (dy == -1 || dy == 0 || dy == 1)){
+                    return true;
+                }
+                if(dx == -2 && dy == 2){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    boolean canSpell(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        return false;
     }
 
 }

@@ -103,20 +103,14 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
                 if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
-                    //System.out.println(i+"meucu"+j);
                     table[j][i] = new Casas_asas(Color.GRAY, j, i, width, height);
                     addEventesToTable(table[j][i]);
                     table[j][i].setPiece(null);
-                    //System.out.println(i+"meucu"+j);
                 } else {
-                    //System.out.println(i+"minhapica"+j);
                     table[j][i] = new Casas_asas(Color.BISQUE, j, i, width, height);
                     addEventesToTable(table[j][i]);
                     table[j][i].setPiece(null);
-                    //System.out.println(i+"minhapica"+j);
                 }
-                //GridPane.setConstraints(table[j][i], j, i);
-                //tab.getChildren().addAll(table[j][i]);
                 tab.add(table[j][i], j, i);
 
             }
@@ -199,6 +193,11 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("You clicked a Piece!");
                 if (event.getButton() == MouseButton.PRIMARY) {
                     if (actualPiece == null) {
+                        try {
+                            repintar();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         actualPiece = p;
                         moving = true;
                         spelling = false;
@@ -209,7 +208,16 @@ public class FXMLDocumentController implements Initializable {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else if (p == actualPiece) {
-                        //pinta possiveis ataques e despintar movimentos
+                        try {
+                            repintar();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        try {
+                            pintarAttack();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         moving = false;
                         spelling = false;
                         attacking = true;
@@ -267,6 +275,20 @@ public class FXMLDocumentController implements Initializable {
                         table[j][i].setFill(Color.AQUAMARINE);
                     } else {
                         table[j][i].setFill(Color.AQUA);
+                    }
+                }
+
+            }
+        }
+    }
+    void pintarAttack() throws FileNotFoundException {
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j < tam; j++) {
+                if (actualPiece.canAttack(tab, table, j, i)) {
+                    if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
+                        table[j][i].setFill(Color.CHOCOLATE);
+                    } else {
+                        table[j][i].setFill(Color.BROWN);
                     }
                 }
 

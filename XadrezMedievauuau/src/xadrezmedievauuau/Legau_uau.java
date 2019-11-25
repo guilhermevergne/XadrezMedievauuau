@@ -55,4 +55,13 @@ public class Legau_uau extends Piece_ece{
         return true;
     }
     
+    @Override
+    boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        return false;
+    }
+
+    @Override
+    boolean canSpell(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        return false;
+    }
 }

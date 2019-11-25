@@ -55,5 +55,13 @@ public class Guerrero_rero extends Piece_ece {
     boolean poderzinho(Casas_asas target) throws FileNotFoundException {
         return true;
     }
-    
+    @Override
+    boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        return false;
+    }
+
+    @Override
+    boolean canSpell(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        return false;
+    }
 }

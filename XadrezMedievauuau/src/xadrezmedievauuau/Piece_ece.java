@@ -11,6 +11,10 @@ public abstract class Piece_ece extends ImageView{
     protected boolean moveAble, atackAble, skillAble;
     protected String nome;
     protected int player;
+
+    public int getPlayer() {
+        return player;
+    }
     protected String path;
     //@FXML ImageView png;
     public Piece_ece(String path, int Hpmax, String nome, int player, Casas_asas pos) {
@@ -70,6 +74,8 @@ public abstract class Piece_ece extends ImageView{
     abstract boolean atack(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;
     abstract boolean poderzinho(Casas_asas target)throws FileNotFoundException;
     abstract boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
+    abstract boolean canAttack(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
+    abstract boolean canSpell(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     
     
 }
