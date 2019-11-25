@@ -17,6 +17,7 @@ public class Guerrero_rero extends Piece_ece {
     public Guerrero_rero(String path, int Hpmax, String nome, int player, Casas_asas pos, int width, int height){
         super(path, Hpmax, nome, player, pos);
         //setImage(new Image(path, width, height, true, true));
+        moveAble = true;
     }
     
     
@@ -39,9 +40,17 @@ public class Guerrero_rero extends Piece_ece {
     }
     
     @Override
-    boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y){
-        if(abs(x - this.pos.getX()) + abs(y - this.pos.getY()) <= 3){
-        return true;
+    boolean canMove(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
+        if(table[x][y].getPiece() == null){
+            if(abs(dx) <= 1 && abs(dy) <= 1){
+                return true;
+            }
+            if(player == 0){
+                if(abs(dx) + abs(dy) <= 3){
+                    return true;
+                }
+            }
         }
         return false;
     }

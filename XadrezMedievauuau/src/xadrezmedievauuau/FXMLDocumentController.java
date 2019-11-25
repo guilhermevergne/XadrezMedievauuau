@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -116,26 +117,16 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         //addPieces();
-        Xablau_uau xu1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 0, table[tam - 1][1], 50, width, height);
-        tab.add(xu1, tam - 1, 1);
-        table[tam - 1][1].setPiece(xu1);
-        addEventesToPiece(xu1);
-
-        Xablau_uau xu2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 0, table[tam - 2][0], 50, width, height);
-        tab.add(xu2, tam - 2, 0);
-        table[tam - 2][0].setPiece(xu2);
-        addEventesToPiece(xu2);
-
-        Xablau_uau x1 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[1][tam - 1], 50, width, height);
-        tab.add(x1, 1, tam - 1);
-        table[1][tam - 1].setPiece(x1);
-        addEventesToPiece(x1);
-
-        Xablau_uau x2 = new Xablau_uau("imgs/Xablau_uau2.png", 100, "arme", 1, table[0][tam - 2], 50, width, height);
-        tab.add(x2, 0, tam - 2);
-        table[0][tam - 2].setPiece(x2);
-        addEventesToPiece(x2);
-
+        
+        //GUERREROS
+        makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "jin", 0, tam -2, 1, 0);
+        
+        //XABLAUS 
+        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme", 0, tam - 1, 1, 50);
+        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme2", 0, tam - 2, 0, 50);
+        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme3", 1, 1, tam - 1, 50);
+        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam -2, 50);
+        
         Scene scene = new Scene(tab, width * tam, height * tam);
         stage.setScene(scene);
         stage.show();
@@ -317,5 +308,29 @@ public class FXMLDocumentController implements Initializable {
         repintar();
         actualPiece = null;
         spelling = false;
+    }
+    
+    void makePiece(String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax) throws FileNotFoundException{
+        if(classe.equals("Guerrero_rero")){            
+            Guerrero_rero newGuerreiro = new Guerrero_rero(foto, hpMax, name, playerID, table[initPosX][initPosY], width, height);
+            tab.add(newGuerreiro, initPosX, initPosY);
+            table[initPosX][initPosY].setPiece(newGuerreiro);
+            addEventesToPiece(newGuerreiro);
+        //    return newGuerreiro;
+        }
+        else if(classe.equals("Xablau_uau")){
+            Xablau_uau newMago = new Xablau_uau(foto, hpMax, name, playerID, table[initPosX][initPosY], mpMax, width, height);
+            tab.add(newMago, initPosX, initPosY);
+            table[initPosX][initPosY].setPiece(newMago);
+            addEventesToPiece(newMago);
+        //    return newMago;
+        }
+        else if(classe.equals("Guardiao_ao")){
+            System.out.println("FALTA CRIAR O TANK PORAR");
+        }
+        else if(classe.equals("Legau_uau")){
+            System.out.println("TBM FALTA CRIAR O HEALER AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        }
+       // return null;
     }
 }
