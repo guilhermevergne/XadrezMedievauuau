@@ -16,6 +16,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.*;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
@@ -25,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
@@ -53,6 +55,7 @@ public class FXMLDocumentController implements Initializable {
     private Piece_ece actualPiece, attackedPiece, selectedPiece;
     boolean attacking, spelling, moving;
     GridPane tab;
+    AnchorPane statTab;
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws FileNotFoundException {
@@ -72,12 +75,26 @@ public class FXMLDocumentController implements Initializable {
     void startgame(int tam) throws FileNotFoundException {
         //setPlayer();
         makeTable(tam);
+        makeStatusTable();
     }
-
+    
+    void makeStatusTable(){
+        Stage stage = new Stage();
+        statTab = new AnchorPane();
+        Button teste = new Button("Teste");
+        statTab.getChildren().addAll(teste);
+        
+        Scene scene = new Scene(statTab, 400, 600);               
+        stage.setScene(scene);
+        stage.show();        
+    }
+    
     void makeTable(int tam) throws FileNotFoundException {
         table = new Casas_asas[tam][tam];
         Stage stage = new Stage();
         tab = new GridPane();
+        
+        
 
         for (int i = 0; i <= tam; i++) {
 
@@ -130,10 +147,12 @@ public class FXMLDocumentController implements Initializable {
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme2", 0, tam - 2, 0, 50);
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme3", 1, 1, tam - 1, 50);
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam -2, 50);
-        
-        Scene scene = new Scene(tab, width * tam, height * tam);
+               
+        Scene scene = new Scene(tab, width * tam, height * tam);               
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
     //eventos relativos ao tabuleiro
