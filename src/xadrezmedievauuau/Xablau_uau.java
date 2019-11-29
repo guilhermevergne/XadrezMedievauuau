@@ -20,15 +20,14 @@ public class Xablau_uau extends Piece_ece {
 
     @Override
     boolean moving(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
-        if (ismoveAble()) {
-            if (canMove(p, table, x, y)) {
-                pos.setPiece(null);
-                p.getChildren().remove(this);
-                p.add(this, x, y);
-                table[x][y].setPiece(this);
-                pos = table[x][y];
-                return true;
-            }
+        if (moveAble && canMove(p, table, x, y)) {
+            pos.setPiece(null);
+            p.getChildren().remove(this);
+            p.add(this, x, y);
+            table[x][y].setPiece(this);
+            pos = table[x][y];
+            moveAble = false;
+            return true;
         }
         return false;
     }
@@ -69,9 +68,10 @@ public class Xablau_uau extends Piece_ece {
 
     @Override
     boolean atack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
-        if(canAttack(p, table, x, y)){
-            if(table[x][y].getPiece() != null && table[x][y].getPiece().player != player){
+        if (atackAble && canAttack(p, table, x, y)) {
+            if (table[x][y].getPiece() != null && table[x][y].getPiece().player != player) {
                 table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                atackAble = false;
                 return true;
             }
         }
@@ -80,6 +80,8 @@ public class Xablau_uau extends Piece_ece {
 
     @Override
     boolean poderzinho(Casas_asas target) throws FileNotFoundException {
+
+        skillAble = false;
         return true;
     }
 

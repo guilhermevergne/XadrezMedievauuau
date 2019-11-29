@@ -30,9 +30,16 @@ public abstract class Piece_ece extends ImageView{
         this.pos = pos;
     }
     
+    public String getpath(){
+        return path;
+    }
     
     public int getHp() {
         return Hp;
+    }
+    
+    public int getHpmax(){
+        return Hpmax;
     }
 
     public void setHp(int Hp) {
@@ -51,24 +58,24 @@ public abstract class Piece_ece extends ImageView{
         return moveAble;
     }
 
-    public void setmoveAble(boolean canmove) {
-        this.moveAble = canmove;
+    public void setmoveAble() {
+        this.moveAble = true;
     }
 
     public boolean isatackAble() {
         return atackAble;
     }
 
-    public void setatackAble(boolean canatack) {
-        this.atackAble = canatack;
+    public void setatackAble() {
+        this.atackAble = true;
     }
 
     public boolean isskillAble() {
         return skillAble;
     }
 
-    public void setskillAble(boolean canskill) {
-        this.skillAble = canskill;
+    public void setskillAble() {
+        this.skillAble = true;
     }
     
     abstract boolean moving(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;

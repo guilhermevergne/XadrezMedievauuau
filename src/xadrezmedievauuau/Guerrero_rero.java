@@ -34,6 +34,7 @@ public class Guerrero_rero extends Piece_ece {
                 table[x][y].setPiece(this);
                 pos = table[x][y];   
                 System.out.println("Deu bom");
+                moveAble = false; // <-- coloquei isso, é muito importante
                 return true;
             }
         }

@@ -1,5 +1,6 @@
 package xadrezmedievauuau;
 
+
 import java.awt.SystemColor;
 import static java.awt.SystemColor.window;
 import java.io.FileNotFoundException;
@@ -12,8 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,6 +32,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -80,53 +80,254 @@ public class FXMLDocumentController implements Initializable {
         makeTable(tam);
         makeStatusTable();
     }
-    
-    void makeStatusTable() {
 
+    void addSelectHandler(Button b) {
         EventHandler<ActionEvent> eventHandler = new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (selectedPiece == null && actualPiece != null) {
+                if (actualPiece != null && selectedPiece == null) {
                     selectedPiece = actualPiece;
-                    selectedPiece.setmoveAble(true);
-                    selectedPiece.setatackAble(true);
-                    selectedPiece.setskillAble(true);
-                } else {
+                    //setStatusTable();
+                    selectedPiece.setmoveAble();
+                    selectedPiece.setatackAble();
+                    selectedPiece.setskillAble();
+                } else if (selectedPiece != null) {
+                    System.out.println("Não pode selecionar outra peça!");
+                } else if (actualPiece == null) {
+                    System.out.println("Primeiro clique em uma peça");
+                }
+            }
+        };
+        b.addEventHandler(ActionEvent.ACTION, eventHandler);
+    }
+
+    void addFinishTurnHandler(Button b) {
+        EventHandler<ActionEvent> eventHandler = new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (selectedPiece != null) {
                     selectedPiece = null;
+                    actualPiece = null;
+                    //acrescentar mana
                     round++;
                 }
             }
-
-            
         };
+        b.addEventHandler(ActionEvent.ACTION, eventHandler);
+    }
+    Button SelectPiece, endTurn;
+    Label label_actualPiece, label_selectedPiece;
+    Label label_actualPieceName, label_selectedPieceName;
+    Label label_actualPiecePlayer, label_selectedPiecePlayer;
+    Label label_actualPieceHp, label_selectedPieceHp;
+    Label label_actualPieceMp, label_selectedPieceMp;
+    ImageView actualPieceImg, selectedPieceImg;
 
+    void makeStatusTable() {
         Stage stage = new Stage();
         statTab = new AnchorPane();
-        Button teste = new Button("Teste");
-        statTab.getChildren().addAll(teste);
-        teste.setPrefSize(60, 20);
-        teste.setTranslateY(290);
-        teste.setTranslateX(150);
-        
-        teste.addEventHandler(ActionEvent.ACTION, eventHandler);
 
-        ImageView img = new ImageView("imgs/Xablau_uau2.png");
-        statTab.getChildren().addAll(img);
-        img.setX(150);
-        img.setY(20);
-        Scene scene = new Scene(statTab, 360, 600);
+        /*  actualPiece  */
+        //Botão para selecionar a peça
+        SelectPiece = new Button("Select");
+        statTab.getChildren().addAll(SelectPiece);
+        SelectPiece.setPrefSize(75, 20);
+        SelectPiece.setTranslateY(180);
+        SelectPiece.setTranslateX(143);
+
+        addSelectHandler(SelectPiece);
+        //Label actualPiece Title
+        label_actualPiece = new Label("actualPiece");
+        label_actualPiece.setTranslateX(140);
+        label_actualPiece.setTranslateY(0);
+        label_actualPiece.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_actualPiece);
+        //Label actualPiece Name
+        label_actualPieceName = new Label("Name: ");
+        label_actualPieceName.setTranslateX(10);
+        label_actualPieceName.setTranslateY(120);
+        label_actualPieceName.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_actualPieceName);
+        //Label actualPiece Class
+        label_actualPiecePlayer = new Label("Player: ");
+        label_actualPiecePlayer.setTranslateX(10);
+        label_actualPiecePlayer.setTranslateY(150);
+        label_actualPiecePlayer.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_actualPiecePlayer);
+        //Label actualPiece Hp
+        label_actualPieceHp = new Label("Hp: ");
+        label_actualPieceHp.setTranslateX(250);
+        label_actualPieceHp.setTranslateY(120);
+        label_actualPieceHp.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_actualPieceHp);
+        //Label actualPiece Name
+        label_actualPieceMp = new Label("Mp: ");
+        label_actualPieceMp.setTranslateX(250);
+        label_actualPieceMp.setTranslateY(150);
+        label_actualPieceMp.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_actualPieceMp);
+        //Fotinha actualPiece
+        actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        statTab.getChildren().addAll(actualPieceImg);
+        actualPieceImg.setX(150);
+        actualPieceImg.setY(30);
+
+        /*  selectedPiece  */
+        //Botão para selecionar a peça
+        endTurn = new Button("End Turn");
+        statTab.getChildren().addAll(endTurn);
+        endTurn.setPrefSize(75, 20);
+        endTurn.setTranslateY(180 + 210);
+        endTurn.setTranslateX(143);
+
+        addFinishTurnHandler(endTurn);
+        //Label selectedPiece Title
+        label_selectedPiece = new Label("selectedPiece");
+        label_selectedPiece.setTranslateX(140);
+        label_selectedPiece.setTranslateY(0 + 210);
+        label_selectedPiece.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_selectedPiece);
+        //Label selectedPiece Name
+        label_selectedPieceName = new Label("Name: ");
+        label_selectedPieceName.setTranslateX(10);
+        label_selectedPieceName.setTranslateY(120 + 210);
+        label_selectedPieceName.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_selectedPieceName);
+        //Label selectedPiece Class
+        label_selectedPiecePlayer = new Label("Player: "); //Arruma isso aq e na declaração em cima
+        label_selectedPiecePlayer.setTranslateX(10);
+        label_selectedPiecePlayer.setTranslateY(150 + 210);
+        label_selectedPiecePlayer.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_selectedPiecePlayer);
+        //Label selectedPiece Hp
+        label_selectedPieceHp = new Label("Hp: ");
+        label_selectedPieceHp.setTranslateX(250);
+        label_selectedPieceHp.setTranslateY(120 + 210);
+        label_selectedPieceHp.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_selectedPieceHp);
+        //Label selectedPiece Name
+        label_selectedPieceMp = new Label("Mp: ");
+        label_selectedPieceMp.setTranslateX(250);
+        label_selectedPieceMp.setTranslateY(150 + 210);
+        label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
+        statTab.getChildren().addAll(label_selectedPieceMp);
+        //Fotinha selectedPiece
+        selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        statTab.getChildren().addAll(selectedPieceImg);
+        selectedPieceImg.setX(150);
+        selectedPieceImg.setY(30 + 210);
+
+        Scene scene = new Scene(statTab, 360, 420);
         stage.setScene(scene);
         stage.setY(50);
         stage.setX(10);
         stage.show();
     }
-    
+
+    void refreshStatusTable() {  // <-- AQUI! AQUI! KRAI. ARRUMA ISSAQUI!
+        //troca os = new label("..."); pra .setText("...");
+        /*  actualPiece  */
+        //Botão para selecionar a peça
+        SelectPiece = new Button("Select");
+        statTab.getChildren().addAll(SelectPiece);
+        SelectPiece.setPrefSize(75, 20);
+        SelectPiece.setTranslateY(180);
+        SelectPiece.setTranslateX(143);
+
+        //Label actualPiece Title
+        label_actualPiece = new Label("actualPiece");
+        label_actualPiece.setTranslateX(140);
+        label_actualPiece.setTranslateY(0);
+        label_actualPiece.setFont(new Font("Times New Roman", 20));
+        //Label actualPiece Name
+        label_actualPieceName = new Label("Name: ");
+        label_actualPieceName.setTranslateX(10);
+        label_actualPieceName.setTranslateY(120);
+        label_actualPieceName.setFont(new Font("Times New Roman", 20));
+        //Label actualPiece Player
+        //label_actualPieceClass = new Label("Player: ");
+        //Label actualPiece Hp
+        label_actualPieceHp = new Label("Hp: ");
+        label_actualPieceHp.setTranslateX(250);
+        label_actualPieceHp.setTranslateY(120);
+        label_actualPieceHp.setFont(new Font("Times New Roman", 20));
+        //Label actualPiece Name
+        label_actualPieceMp = new Label("Mp: ");
+        label_actualPieceMp.setTranslateX(250);
+        label_actualPieceMp.setTranslateY(150);
+        label_actualPieceMp.setFont(new Font("Times New Roman", 20));
+        //Fotinha actualPiece
+        actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        actualPieceImg.setX(150);
+        actualPieceImg.setY(30);
+
+        /*  selectedPiece  */
+        //Label selectedPiece Name
+        label_selectedPieceName = new Label("Name: ");
+        label_selectedPieceName.setTranslateX(10);
+        label_selectedPieceName.setTranslateY(120 + 210);
+        label_selectedPieceName.setFont(new Font("Times New Roman", 20));
+        //Label selectedPiece Player
+        label_selectedPiecePlayer = new Label("Player: ");//arruma aq e na declaração em cima
+        label_selectedPiecePlayer.setTranslateX(10);
+        label_selectedPiecePlayer.setTranslateY(150 + 210);
+        label_selectedPiecePlayer.setFont(new Font("Times New Roman", 20));
+        //Label selectedPiece Hp
+        label_selectedPieceHp = new Label("Hp: ");
+        label_selectedPieceHp.setTranslateX(250);
+        label_selectedPieceHp.setTranslateY(120 + 210);
+        label_selectedPieceHp.setFont(new Font("Times New Roman", 20));
+        //Label selectedPiece Name
+        label_selectedPieceMp = new Label("Mp: ");
+        label_selectedPieceMp.setTranslateX(250);
+        label_selectedPieceMp.setTranslateY(150 + 210);
+        label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
+        //Fotinha selectedPiece
+        selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        selectedPieceImg.setX(150);
+        selectedPieceImg.setY(30 + 210);
+
+        //Se não for null
+        if (actualPiece != null) {
+            //Label actualPiece Name
+            label_actualPieceName = new Label("Name: " + actualPiece.nome);
+            label_actualPieceName.setTranslateX(10);
+            label_actualPieceName.setTranslateY(120);
+            label_actualPieceName.setFont(new Font("Times New Roman", 20));
+            //Label actualPiece Player
+            label_actualPiecePlayer.setText("Player: " + actualPiece.player);
+            //Label actualPiece Hp
+            label_actualPieceHp.setText("Hp: " + actualPiece.getHp() + "/" + actualPiece.getHpmax());
+            //Label actualPiece Name
+            
+            label_actualPieceMp = new Label("Mp: ");
+            
+            //Fotinha actualPiece
+            actualPieceImg = new ImageView(actualPiece.getpath());
+        }
+        if(selectedPiece != null){
+            //Label actualPiece Name
+            label_selectedPieceName = new Label("Name: " + selectedPiece.nome);
+            label_selectedPieceName.setTranslateX(10);
+            label_selectedPieceName.setTranslateY(120);
+            label_selectedPieceName.setFont(new Font("Times New Roman", 20));
+            //Label actualPiece Player
+            label_selectedPieceName.setText("Player: " + selectedPiece.player);
+            //Label actualPiece Hp
+            label_selectedPieceName.setText("Hp: " + selectedPiece.getHp() + "/" + selectedPiece.getHpmax());
+            //Label actualPiece Name
+            
+            label_selectedPieceName = new Label("Mp: ");
+            
+            //Fotinha actualPiece
+            selectedPieceImg = new ImageView(selectedPiece.getpath());
+        }
+    }
+
     void makeTable(int tam) throws FileNotFoundException {
         table = new Casas_asas[tam][tam];
         Stage stage = new Stage();
         tab = new GridPane();
-        
-        
 
         for (int i = 0; i <= tam; i++) {
 
@@ -166,25 +367,22 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         //addPieces();
-        
+
         //LEGAUS
-        
         //GUARDIAOS
-        
         //GUERREROS
-        makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "jin", 0, tam -2, 1, 0);
-        
+        makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "jin", 0, tam - 2, 1, 0);
+
         //XABLAUS 
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme", 0, tam - 1, 1, 50);
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme2", 0, tam - 2, 0, 50);
         makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme3", 1, 1, tam - 1, 50);
-        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam -2, 50);
-               
-        Scene scene = new Scene(tab, width * tam, height * tam);               
+        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam - 2, 50);
+
+        Scene scene = new Scene(tab, width * tam, height * tam);
         stage.setScene(scene);
         stage.show();
-        
-        
+
     }
 
     //eventos relativos ao tabuleiro
@@ -199,14 +397,14 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Has Piece.");
                 }
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    if (moving && selectedPiece == actualPiece && selectedPiece.player == round%2) {
+                    if (moving && selectedPiece == actualPiece && selectedPiece.player == round % 2) {
                         try {
                             Move();
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    if (attacking && tclicked.getPiece() != null && actualPiece == selectedPiece && actualPiece.player == round%2) {
+                    if (attacking && tclicked.getPiece() != null && actualPiece == selectedPiece && actualPiece.player == round % 2) {
                         selectedPiece = actualPiece;
                         try {
                             Attack();
@@ -226,7 +424,7 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
                 if (event.getButton() == MouseButton.SECONDARY) {
-                    if (spelling && actualPiece == selectedPiece && actualPiece.player == round%2) {
+                    if (spelling && actualPiece == selectedPiece && actualPiece.player == round % 2) {
                         try {
                             Poderzinho(tclicked);
                         } catch (FileNotFoundException ex) {
@@ -246,13 +444,14 @@ public class FXMLDocumentController implements Initializable {
             public void handle(MouseEvent event) {
                 //System.out.println("You clicked a Piece!");
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    if (actualPiece != p || (actualPiece == p && (attacking == true || spelling == true))) {
+                    if ((actualPiece != p && (!attacking && !spelling)) || (actualPiece == p && (attacking || spelling))) {
                         try {
                             repintar();
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         actualPiece = p;
+                        //setStatusTable();
                         moving = true;
                         spelling = false;
                         attacking = false;
@@ -275,7 +474,7 @@ public class FXMLDocumentController implements Initializable {
                         moving = false;
                         spelling = false;
                         attacking = true;
-                    } else if (attacking && p.player != actualPiece.player && actualPiece.player == round%2) {
+                    } else if (attacking && p.player != actualPiece.player && actualPiece.player == round % 2) {
                         attackedPiece = p;
                         tclicked = attackedPiece.getPos();
                         try {
@@ -293,7 +492,7 @@ public class FXMLDocumentController implements Initializable {
                         spelling = true;
                         attacking = false;
                         //pintar alcance da habilidade e despintar os outros
-                    } else if (actualPiece != null && spelling && actualPiece.player == round%2) {
+                    } else if (actualPiece != null && spelling && actualPiece.player == round % 2) {
                         try {
                             Poderzinho(actualPiece.getPos());
                         } catch (FileNotFoundException ex) {
@@ -336,6 +535,7 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+
     void pintarAttack() throws FileNotFoundException {
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
@@ -353,8 +553,14 @@ public class FXMLDocumentController implements Initializable {
 
     void Attack() throws FileNotFoundException {
         System.out.println("Atacou");
-        actualPiece.atack(tab, table, tclicked.getposX(), tclicked.getposY());
+        selectedPiece.atack(tab, table, tclicked.getposX(), tclicked.getposY());
         repintar();
+        System.out.println(attackedPiece.getHp());
+        //Kill
+        if (attackedPiece.getHp() <= 0) {
+            attackedPiece.pos.setPiece(null);
+            tab.getChildren().remove(attackedPiece);
+        }
         actualPiece = null;
         tclicked = null;
         attacking = false;
@@ -369,32 +575,29 @@ public class FXMLDocumentController implements Initializable {
     }
 
     void Poderzinho(Casas_asas target) throws FileNotFoundException {
-        actualPiece.poderzinho(target);
+        selectedPiece.poderzinho(target);
         System.out.println("Spellou");
         repintar();
         actualPiece = null;
         spelling = false;
     }
-    
-    void makePiece(String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax) throws FileNotFoundException{
-        if(classe.equals("Guerrero_rero")){            
+
+    void makePiece(String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax) throws FileNotFoundException {
+        if (classe.equals("Guerrero_rero")) {
             Guerrero_rero newGuerreiro = new Guerrero_rero(foto, hpMax, name, playerID, table[initPosX][initPosY], width, height);
             tab.add(newGuerreiro, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newGuerreiro);
             addEventesToPiece(newGuerreiro);
-        //    return newGuerreiro;
-        }
-        else if(classe.equals("Xablau_uau")){
+            //    return newGuerreiro;
+        } else if (classe.equals("Xablau_uau")) {
             Xablau_uau newMago = new Xablau_uau(foto, hpMax, name, playerID, table[initPosX][initPosY], mpMax, width, height);
             tab.add(newMago, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newMago);
             addEventesToPiece(newMago);
-        //    return newMago;
-        }
-        else if(classe.equals("Guardiao_ao")){
+            //    return newMago;
+        } else if (classe.equals("Guardiao_ao")) {
             System.out.println("FALTA CRIAR O TANK PORAR");
-        }
-        else if(classe.equals("Legau_uau")){
+        } else if (classe.equals("Legau_uau")) {
             System.out.println("TBM FALTA CRIAR O HEALER AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         }
     }
