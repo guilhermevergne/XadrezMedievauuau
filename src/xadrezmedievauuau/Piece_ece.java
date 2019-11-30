@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
-    protected int Hpmax, Hp, DMG;
+    protected int Hpmax, Hp, DMG, Mpmax, Mp;
     protected Casas_asas pos;
     protected boolean moveAble, atackAble, skillAble;
     protected String nome;
@@ -20,6 +20,7 @@ public abstract class Piece_ece extends ImageView{
     
     public Piece_ece(String path, int Hpmax, String nome, int player, Casas_asas pos) {
         super(path);
+        this.path = path;
         this.Hpmax = Hpmax;
         this.Hp = Hpmax;
         this.moveAble = false;
@@ -28,6 +29,8 @@ public abstract class Piece_ece extends ImageView{
         this.nome = nome;
         this.player = player;
         this.pos = pos;
+        Mpmax = 0;
+        Mp = 0;
     }
     
     public String getName(){
@@ -50,8 +53,20 @@ public abstract class Piece_ece extends ImageView{
         return Hpmax;
     }
 
+    public int getMpmax() {
+        return Mpmax;
+    }
+
+    public int getMp() {
+        return Mp;
+    }
+
     public void setHp(int Hp) {
         this.Hp = Hp;
+    }
+
+    public void setMp(int Mp) {
+        this.Mp = Mp;
     }
 
     public Casas_asas getPos() {

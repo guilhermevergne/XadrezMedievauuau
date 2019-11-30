@@ -1,6 +1,5 @@
 package xadrezmedievauuau;
 
-
 import java.awt.SystemColor;
 import static java.awt.SystemColor.window;
 import java.io.FileNotFoundException;
@@ -48,6 +47,10 @@ public class FXMLDocumentController implements Initializable {
     private TextField P2;
 
     //"define"
+    Stage stageTab = new Stage();
+    Scene sceneTab;
+    Stage stageStat = new Stage();
+    Scene sceneStat;
     Casas_asas[][] table;
     int round;
     int tam;
@@ -57,6 +60,7 @@ public class FXMLDocumentController implements Initializable {
     private Piece_ece pclicked;
     private Piece_ece actualPiece, attackedPiece, selectedPiece;
     boolean attacking, spelling, moving;
+    boolean gameStarted = false;
     GridPane tab;
     AnchorPane statTab;
 
@@ -80,16 +84,17 @@ public class FXMLDocumentController implements Initializable {
         //setPlayer();
         makeTable(tam);
         makeStatusTable();
+        gameStarted = true;
     }
 
     void addSelectHandler(Button b) {
         EventHandler<ActionEvent> eventHandler = new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
-                if (actualPiece != null && selectedPiece == null) {
+
+                if (actualPiece != null && selectedPiece == null && actualPiece.getPlayer() == round % 2) {
                     selectedPiece = actualPiece;
-                    //setStatusTable();
+                    refreshStatusTable();
                     selectedPiece.setmoveAble();
                     selectedPiece.setatackAble();
                     selectedPiece.setskillAble();
@@ -99,7 +104,7 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Primeiro clique em uma peça");
                 }
                 //System.out.println(actualPiece.getPos().getposX() + " ; " + actualPiece.getPos().getposY());
-                        
+
             }
         };
         b.addEventHandler(ActionEvent.ACTION, eventHandler);
@@ -112,13 +117,16 @@ public class FXMLDocumentController implements Initializable {
                 if (selectedPiece != null) {
                     selectedPiece = null;
                     actualPiece = null;
-                    //acrescentar mana
+                    refreshStatusTable();
                     round++;
+                } else {
+                    System.out.println("Você ainda não jogou, ao menos selecione uma peça");
                 }
             }
         };
         b.addEventHandler(ActionEvent.ACTION, eventHandler);
     }
+
     Button SelectPiece, endTurn;
     Label label_actualPiece, label_selectedPiece;
     Label label_actualPieceName, label_selectedPieceName;
@@ -126,9 +134,9 @@ public class FXMLDocumentController implements Initializable {
     Label label_actualPieceHp, label_selectedPieceHp;
     Label label_actualPieceMp, label_selectedPieceMp;
     ImageView actualPieceImg, selectedPieceImg;
-    
+
     void makeStatusTable() {
-        Stage stage = new Stage();
+        if(!gameStarted){
         statTab = new AnchorPane();
 
         /*  actualPiece  */
@@ -171,7 +179,7 @@ public class FXMLDocumentController implements Initializable {
         label_actualPieceMp.setFont(new Font("Times New Roman", 20));
         statTab.getChildren().addAll(label_actualPieceMp);
         //Fotinha actualPiece
-        actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        actualPieceImg = new ImageView("imgs/Vazio.png");
         statTab.getChildren().addAll(actualPieceImg);
         actualPieceImg.setX(150);
         actualPieceImg.setY(30);
@@ -216,182 +224,139 @@ public class FXMLDocumentController implements Initializable {
         label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
         statTab.getChildren().addAll(label_selectedPieceMp);
         //Fotinha selectedPiece
-        selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
+        selectedPieceImg = new ImageView("imgs/Vazio.png");
         statTab.getChildren().addAll(selectedPieceImg);
         selectedPieceImg.setX(150);
         selectedPieceImg.setY(30 + 210);
 
-        Scene scene = new Scene(statTab, 360, 420);
-        stage.setScene(scene);
-        stage.setY(50);
-        stage.setX(10);
-        stage.show();
+        sceneStat = new Scene(statTab, 360, 420);
+        }
+        stageStat.setScene(sceneStat);
+        stageStat.setY(50);
+        stageStat.setX(10);
+        stageStat.show();
     }
 
-    void refreshStatusTable(String pieceState, Piece_ece pclicked) {  // <-- AQUI! AQUI! KRAI. ARRUMA ISSAQUI!
-        if(pieceState.equals("actual")){
-            //Label actualPiece Title
-            label_actualPiece = new Label("actualPiece");
-            label_actualPiece.setTranslateX(140);
-            label_actualPiece.setTranslateY(0);
-            label_actualPiece.setFont(new Font("Times New Roman", 20));
-           //Label actualPiece Name
-            label_actualPieceName.setText("Name: " + pclicked.getName());
-            label_actualPieceName.setTranslateX(10);
-            label_actualPieceName.setTranslateY(120);
-            label_actualPieceName.setFont(new Font("Times New Roman", 20));
-            //Label actualPiece Player
-            label_actualPiecePlayer.setText("Player: " + pclicked.getPlayer());
-            //Label actualPiece Hp
-            label_actualPieceHp.setText("Hp: " + pclicked.getHp() + "/" + pclicked.getHpmax());
-            label_actualPieceHp.setTranslateX(250);
-            label_actualPieceHp.setTranslateY(120);
-            label_actualPieceHp.setFont(new Font("Times New Roman", 20));
-            //Label actualPiece Name
-            label_actualPieceMp.setText("Mp: " + "*guerrero");
-            label_actualPieceMp.setTranslateX(250);
-            label_actualPieceMp.setTranslateY(150);
-            label_actualPieceMp.setFont(new Font("Times New Roman", 20));
-            //Fotinha actualPiece
-            //actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
-            //actualPieceImg.setX(150);
-           // actualPieceImg.setY(30);
-        }
-        else if(pieceState.equals("selected")){
-            /*  selectedPiece  */
-            //Label selectedPiece Name
-            label_selectedPieceName.setText("Name: " );
-            label_selectedPieceName.setTranslateX(10);
-            label_selectedPieceName.setTranslateY(120 + 210);
-            label_selectedPieceName.setFont(new Font("Times New Roman", 20));
-            //Label selectedPiece Player
-            label_selectedPiecePlayer.setText("Player: " );//arruma aq e na declaração em cima
-            label_selectedPiecePlayer.setTranslateX(10);
-            label_selectedPiecePlayer.setTranslateY(150 + 210);
-            label_selectedPiecePlayer.setFont(new Font("Times New Roman", 20));
-            //Label selectedPiece Hp
-            label_selectedPieceHp.setText("Hp: " );
-            label_selectedPieceHp.setTranslateX(250);
-            label_selectedPieceHp.setTranslateY(120 + 210);
-            label_selectedPieceHp.setFont(new Font("Times New Roman", 20));
-            //Label selectedPiece Name
-            label_selectedPieceMp.setText("Mp: " );
-            label_selectedPieceMp.setTranslateX(250);
-            label_selectedPieceMp.setTranslateY(150 + 210);
-            label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
-            //Fotinha selectedPiece
-            //selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
-            //selectedPieceImg.setX(150);
-            //selectedPieceImg.setY(30 + 210);
-
-        }
-        
-
-        //troca os = new label("..."); pra .setText("...");
+    void refreshStatusTable() {
         /*  actualPiece  */
-        //Botão para selecionar a peça
-        SelectPiece = new Button("Select");
-        statTab.getChildren().addAll(SelectPiece);
-        SelectPiece.setPrefSize(75, 20);
-        SelectPiece.setTranslateY(180);
-        SelectPiece.setTranslateX(143);        
-
-        
         //Se não for null
         if (actualPiece != null) {
+            //Label actualPiece Title
+            label_actualPiece = new Label("actualPiece");
             //Label actualPiece Name
             label_actualPieceName.setText("Name: " + actualPiece.getName());
-            label_actualPieceName.setTranslateX(10);
-            label_actualPieceName.setTranslateY(120);
-            label_actualPieceName.setFont(new Font("Times New Roman", 20));
             //Label actualPiece Player
             label_actualPiecePlayer.setText("Player: " + actualPiece.getPlayer());
             //Label actualPiece Hp
             label_actualPieceHp.setText("Hp: " + actualPiece.getHp() + "/" + actualPiece.getHpmax());
             //Label actualPiece Name
-            
-            label_actualPieceMp = new Label("Mp: ");
-            
+            label_actualPieceMp.setText("Mp: " + actualPiece.getMp() + "/" + actualPiece.getMpmax());
             //Fotinha actualPiece
-            //actualPieceImg = new ImageView(actualPiece.getpath());
+            actualPieceImg.setImage(new Image(actualPiece.getpath()));
         }
-        if(selectedPiece != null){
+        //se for null
+        else{
+            //Label actualPiece Title
+            label_actualPiece = new Label("actualPiece");
             //Label actualPiece Name
-            label_selectedPieceName.setText("Name: " + selectedPiece.getName());
-            label_selectedPieceName.setTranslateX(10);
-            label_selectedPieceName.setTranslateY(120);
-            label_selectedPieceName.setFont(new Font("Times New Roman", 20));
+            label_actualPieceName.setText("Name: ");
             //Label actualPiece Player
-            label_selectedPieceName.setText("Player: " + selectedPiece.getPlayer());
+            label_actualPiecePlayer.setText("Player: ");
             //Label actualPiece Hp
-            label_selectedPieceName.setText("Hp: " + selectedPiece.getHp() + "/" + selectedPiece.getHpmax());
+            label_actualPieceHp.setText("Hp: ");
             //Label actualPiece Name
-            
-            label_selectedPieceName = new Label("Mp: ");
-            
+            label_actualPieceMp.setText("Mp: ");
             //Fotinha actualPiece
-            //selectedPieceImg = new ImageView(selectedPiece.getpath());
+            actualPieceImg.setImage(new Image("imgs/Vazio.png"));
+        }
+        
+        /*  selectedPiece  */
+        //se não for null
+        if (selectedPiece != null) {
+            //Label selectedPiece Name
+            label_selectedPieceName.setText("Name: " + selectedPiece.getName());
+            //Label selectedPiece Player
+            label_selectedPiecePlayer.setText("Player: " + selectedPiece.getPlayer());
+            //Label selectedPiece Hp
+            label_selectedPieceHp.setText("Hp: " + selectedPiece.getHp() + "/" + selectedPiece.getHpmax());
+            //Label selectedPiece Name
+            label_selectedPieceMp.setText("Mp: " + selectedPiece.getMp() + "/" + selectedPiece.getMpmax());
+            //Fotinha selectedPiece
+            selectedPieceImg.setImage(new Image(selectedPiece.getpath()));
+        }
+        //se for null
+        else{
+            //Label selectedPiece Name
+            label_selectedPieceName.setText("Name: ");
+            //Label selectedPiece Player
+            label_selectedPiecePlayer.setText("Player: ");
+            //Label selectedPiece Hp
+            label_selectedPieceHp.setText("Hp: ");
+            //Label selectedPiece Name
+            label_selectedPieceMp.setText("Mp: ");
+            //Fotinha selectedPiece
+            selectedPieceImg.setImage(new Image("imgs/Vazio.png"));
         }
     }
 
     void makeTable(int tam) throws FileNotFoundException {
-        table = new Casas_asas[tam][tam];
-        Stage stage = new Stage();
-        tab = new GridPane();
+        if (!gameStarted) {
+            table = new Casas_asas[tam][tam];
+            tab = new GridPane();
 
-        for (int i = 0; i <= tam; i++) {
+            for (int i = 0; i <= tam; i++) {
 
-            RowConstraints linha;
-            linha = new RowConstraints(height, height, height, Priority.ALWAYS, VPos.CENTER, true);
+                RowConstraints linha;
+                linha = new RowConstraints(height, height, height, Priority.ALWAYS, VPos.CENTER, true);
 
-            linha.setPrefHeight(height);
+                linha.setPrefHeight(height);
 
-            tab.getRowConstraints().add(linha);
-
-        }
-
-        for (int i = 0; i <= tam; i++) {
-
-            ColumnConstraints coluna;
-            coluna = new ColumnConstraints(width, width, width, Priority.ALWAYS, HPos.CENTER, true);
-
-            coluna.setPrefWidth(width);
-
-            tab.getColumnConstraints().add(coluna);
-
-        }
-
-        for (int i = 0; i < tam; i++) {
-            for (int j = 0; j < tam; j++) {
-                if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
-                    table[j][i] = new Casas_asas(Color.GRAY, j, i, width, height);
-                    addEventesToTable(table[j][i]);
-                    table[j][i].setPiece(null);
-                } else {
-                    table[j][i] = new Casas_asas(Color.BISQUE, j, i, width, height);
-                    addEventesToTable(table[j][i]);
-                    table[j][i].setPiece(null);
-                }
-                tab.add(table[j][i], j, i);
+                tab.getRowConstraints().add(linha);
 
             }
+
+            for (int i = 0; i <= tam; i++) {
+
+                ColumnConstraints coluna;
+                coluna = new ColumnConstraints(width, width, width, Priority.ALWAYS, HPos.CENTER, true);
+
+                coluna.setPrefWidth(width);
+
+                tab.getColumnConstraints().add(coluna);
+
+            }
+
+            for (int i = 0; i < tam; i++) {
+                for (int j = 0; j < tam; j++) {
+                    if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
+                        table[j][i] = new Casas_asas(Color.GRAY, j, i, width, height);
+                        addEventesToTable(table[j][i]);
+                        table[j][i].setPiece(null);
+                    } else {
+                        table[j][i] = new Casas_asas(Color.BISQUE, j, i, width, height);
+                        addEventesToTable(table[j][i]);
+                        table[j][i].setPiece(null);
+                    }
+                    tab.add(table[j][i], j, i);
+
+                }
+            }
+            //addPieces();
+
+            //LEGAUS
+            //GUARDIAOS
+            //GUERREROS
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "jin", 0, tam - 2, 1, 0);
+
+            //XABLAUS 
+            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme", 0, tam - 1, 1, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme2", 0, tam - 2, 0, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme3", 1, 1, tam - 1, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam - 2, 50);
+            sceneTab = new Scene(tab, width * tam, height * tam);
         }
-        //addPieces();
-
-        //LEGAUS
-        //GUARDIAOS
-        //GUERREROS
-        makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "jin", 0, tam - 2, 1, 0);
-
-        //XABLAUS 
-        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme", 0, tam - 1, 1, 50);
-        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme2", 0, tam - 2, 0, 50);
-        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme3", 1, 1, tam - 1, 50);
-        makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "arme4", 1, 0, tam - 2, 50);
-
-        Scene scene = new Scene(tab, width * tam, height * tam);
-        stage.setScene(scene);
-        stage.show();
+        stageTab.setScene(sceneTab);
+        stageTab.show();
 
     }
 
@@ -442,7 +407,7 @@ public class FXMLDocumentController implements Initializable {
                         }
                     }
                 }
-
+                refreshStatusTable();
             }
         };
         t1.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, eventHandler);
@@ -453,10 +418,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("You clicked a Piece!");
-                //REFRESH BUGADO: 
-                pclicked = (Piece_ece) event.getSource();
-                refreshStatusTable("actual", pclicked);
-                
+
                 if (event.getButton() == MouseButton.PRIMARY) {
                     if ((actualPiece != p && (!attacking && !spelling)) || (actualPiece == p && (attacking || spelling))) {
                         try {
@@ -465,7 +427,7 @@ public class FXMLDocumentController implements Initializable {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         actualPiece = p;
-                        //setStatusTable();
+                        refreshStatusTable();
                         moving = true;
                         spelling = false;
                         attacking = false;
