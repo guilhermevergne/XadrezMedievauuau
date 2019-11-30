@@ -30,6 +30,14 @@ public abstract class Piece_ece extends ImageView{
         this.pos = pos;
     }
     
+    public String getName(){
+        return nome;
+    }
+    
+    public void setName(String nome){
+        this.nome = nome;
+    }
+    
     public String getpath(){
         return path;
     }

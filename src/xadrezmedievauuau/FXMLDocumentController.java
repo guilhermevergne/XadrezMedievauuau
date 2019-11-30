@@ -54,6 +54,7 @@ public class FXMLDocumentController implements Initializable {
     int width = 100;
     int height = 100;
     private Casas_asas tclicked;
+    private Piece_ece pclicked;
     private Piece_ece actualPiece, attackedPiece, selectedPiece;
     boolean attacking, spelling, moving;
     GridPane tab;
@@ -85,6 +86,7 @@ public class FXMLDocumentController implements Initializable {
         EventHandler<ActionEvent> eventHandler = new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                
                 if (actualPiece != null && selectedPiece == null) {
                     selectedPiece = actualPiece;
                     //setStatusTable();
@@ -96,6 +98,8 @@ public class FXMLDocumentController implements Initializable {
                 } else if (actualPiece == null) {
                     System.out.println("Primeiro clique em uma peça");
                 }
+                //System.out.println(actualPiece.getPos().getposX() + " ; " + actualPiece.getPos().getposY());
+                        
             }
         };
         b.addEventHandler(ActionEvent.ACTION, eventHandler);
@@ -122,7 +126,7 @@ public class FXMLDocumentController implements Initializable {
     Label label_actualPieceHp, label_selectedPieceHp;
     Label label_actualPieceMp, label_selectedPieceMp;
     ImageView actualPieceImg, selectedPieceImg;
-
+    
     void makeStatusTable() {
         Stage stage = new Stage();
         statTab = new AnchorPane();
@@ -224,7 +228,65 @@ public class FXMLDocumentController implements Initializable {
         stage.show();
     }
 
-    void refreshStatusTable() {  // <-- AQUI! AQUI! KRAI. ARRUMA ISSAQUI!
+    void refreshStatusTable(String pieceState, Piece_ece pclicked) {  // <-- AQUI! AQUI! KRAI. ARRUMA ISSAQUI!
+        if(pieceState.equals("actual")){
+            //Label actualPiece Title
+            label_actualPiece = new Label("actualPiece");
+            label_actualPiece.setTranslateX(140);
+            label_actualPiece.setTranslateY(0);
+            label_actualPiece.setFont(new Font("Times New Roman", 20));
+           //Label actualPiece Name
+            label_actualPieceName.setText("Name: " + pclicked.getName());
+            label_actualPieceName.setTranslateX(10);
+            label_actualPieceName.setTranslateY(120);
+            label_actualPieceName.setFont(new Font("Times New Roman", 20));
+            //Label actualPiece Player
+            label_actualPiecePlayer.setText("Player: " + pclicked.getPlayer());
+            //Label actualPiece Hp
+            label_actualPieceHp.setText("Hp: " + pclicked.getHp() + "/" + pclicked.getHpmax());
+            label_actualPieceHp.setTranslateX(250);
+            label_actualPieceHp.setTranslateY(120);
+            label_actualPieceHp.setFont(new Font("Times New Roman", 20));
+            //Label actualPiece Name
+            label_actualPieceMp.setText("Mp: " + "*guerrero");
+            label_actualPieceMp.setTranslateX(250);
+            label_actualPieceMp.setTranslateY(150);
+            label_actualPieceMp.setFont(new Font("Times New Roman", 20));
+            //Fotinha actualPiece
+            //actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
+            //actualPieceImg.setX(150);
+           // actualPieceImg.setY(30);
+        }
+        else if(pieceState.equals("selected")){
+            /*  selectedPiece  */
+            //Label selectedPiece Name
+            label_selectedPieceName.setText("Name: " );
+            label_selectedPieceName.setTranslateX(10);
+            label_selectedPieceName.setTranslateY(120 + 210);
+            label_selectedPieceName.setFont(new Font("Times New Roman", 20));
+            //Label selectedPiece Player
+            label_selectedPiecePlayer.setText("Player: " );//arruma aq e na declaração em cima
+            label_selectedPiecePlayer.setTranslateX(10);
+            label_selectedPiecePlayer.setTranslateY(150 + 210);
+            label_selectedPiecePlayer.setFont(new Font("Times New Roman", 20));
+            //Label selectedPiece Hp
+            label_selectedPieceHp.setText("Hp: " );
+            label_selectedPieceHp.setTranslateX(250);
+            label_selectedPieceHp.setTranslateY(120 + 210);
+            label_selectedPieceHp.setFont(new Font("Times New Roman", 20));
+            //Label selectedPiece Name
+            label_selectedPieceMp.setText("Mp: " );
+            label_selectedPieceMp.setTranslateX(250);
+            label_selectedPieceMp.setTranslateY(150 + 210);
+            label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
+            //Fotinha selectedPiece
+            //selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
+            //selectedPieceImg.setX(150);
+            //selectedPieceImg.setY(30 + 210);
+
+        }
+        
+
         //troca os = new label("..."); pra .setText("...");
         /*  actualPiece  */
         //Botão para selecionar a peça
@@ -232,70 +294,18 @@ public class FXMLDocumentController implements Initializable {
         statTab.getChildren().addAll(SelectPiece);
         SelectPiece.setPrefSize(75, 20);
         SelectPiece.setTranslateY(180);
-        SelectPiece.setTranslateX(143);
+        SelectPiece.setTranslateX(143);        
 
-        //Label actualPiece Title
-        label_actualPiece = new Label("actualPiece");
-        label_actualPiece.setTranslateX(140);
-        label_actualPiece.setTranslateY(0);
-        label_actualPiece.setFont(new Font("Times New Roman", 20));
-        //Label actualPiece Name
-        label_actualPieceName = new Label("Name: ");
-        label_actualPieceName.setTranslateX(10);
-        label_actualPieceName.setTranslateY(120);
-        label_actualPieceName.setFont(new Font("Times New Roman", 20));
-        //Label actualPiece Player
-        //label_actualPieceClass = new Label("Player: ");
-        //Label actualPiece Hp
-        label_actualPieceHp = new Label("Hp: ");
-        label_actualPieceHp.setTranslateX(250);
-        label_actualPieceHp.setTranslateY(120);
-        label_actualPieceHp.setFont(new Font("Times New Roman", 20));
-        //Label actualPiece Name
-        label_actualPieceMp = new Label("Mp: ");
-        label_actualPieceMp.setTranslateX(250);
-        label_actualPieceMp.setTranslateY(150);
-        label_actualPieceMp.setFont(new Font("Times New Roman", 20));
-        //Fotinha actualPiece
-        actualPieceImg = new ImageView("imgs/Xablau_uau2.png");
-        actualPieceImg.setX(150);
-        actualPieceImg.setY(30);
-
-        /*  selectedPiece  */
-        //Label selectedPiece Name
-        label_selectedPieceName = new Label("Name: ");
-        label_selectedPieceName.setTranslateX(10);
-        label_selectedPieceName.setTranslateY(120 + 210);
-        label_selectedPieceName.setFont(new Font("Times New Roman", 20));
-        //Label selectedPiece Player
-        label_selectedPiecePlayer = new Label("Player: ");//arruma aq e na declaração em cima
-        label_selectedPiecePlayer.setTranslateX(10);
-        label_selectedPiecePlayer.setTranslateY(150 + 210);
-        label_selectedPiecePlayer.setFont(new Font("Times New Roman", 20));
-        //Label selectedPiece Hp
-        label_selectedPieceHp = new Label("Hp: ");
-        label_selectedPieceHp.setTranslateX(250);
-        label_selectedPieceHp.setTranslateY(120 + 210);
-        label_selectedPieceHp.setFont(new Font("Times New Roman", 20));
-        //Label selectedPiece Name
-        label_selectedPieceMp = new Label("Mp: ");
-        label_selectedPieceMp.setTranslateX(250);
-        label_selectedPieceMp.setTranslateY(150 + 210);
-        label_selectedPieceMp.setFont(new Font("Times New Roman", 20));
-        //Fotinha selectedPiece
-        selectedPieceImg = new ImageView("imgs/Xablau_uau2.png");
-        selectedPieceImg.setX(150);
-        selectedPieceImg.setY(30 + 210);
-
+        
         //Se não for null
         if (actualPiece != null) {
             //Label actualPiece Name
-            label_actualPieceName = new Label("Name: " + actualPiece.nome);
+            label_actualPieceName.setText("Name: " + actualPiece.getName());
             label_actualPieceName.setTranslateX(10);
             label_actualPieceName.setTranslateY(120);
             label_actualPieceName.setFont(new Font("Times New Roman", 20));
             //Label actualPiece Player
-            label_actualPiecePlayer.setText("Player: " + actualPiece.player);
+            label_actualPiecePlayer.setText("Player: " + actualPiece.getPlayer());
             //Label actualPiece Hp
             label_actualPieceHp.setText("Hp: " + actualPiece.getHp() + "/" + actualPiece.getHpmax());
             //Label actualPiece Name
@@ -303,16 +313,16 @@ public class FXMLDocumentController implements Initializable {
             label_actualPieceMp = new Label("Mp: ");
             
             //Fotinha actualPiece
-            actualPieceImg = new ImageView(actualPiece.getpath());
+            //actualPieceImg = new ImageView(actualPiece.getpath());
         }
         if(selectedPiece != null){
             //Label actualPiece Name
-            label_selectedPieceName = new Label("Name: " + selectedPiece.nome);
+            label_selectedPieceName.setText("Name: " + selectedPiece.getName());
             label_selectedPieceName.setTranslateX(10);
             label_selectedPieceName.setTranslateY(120);
             label_selectedPieceName.setFont(new Font("Times New Roman", 20));
             //Label actualPiece Player
-            label_selectedPieceName.setText("Player: " + selectedPiece.player);
+            label_selectedPieceName.setText("Player: " + selectedPiece.getPlayer());
             //Label actualPiece Hp
             label_selectedPieceName.setText("Hp: " + selectedPiece.getHp() + "/" + selectedPiece.getHpmax());
             //Label actualPiece Name
@@ -320,7 +330,7 @@ public class FXMLDocumentController implements Initializable {
             label_selectedPieceName = new Label("Mp: ");
             
             //Fotinha actualPiece
-            selectedPieceImg = new ImageView(selectedPiece.getpath());
+            //selectedPieceImg = new ImageView(selectedPiece.getpath());
         }
     }
 
@@ -442,7 +452,11 @@ public class FXMLDocumentController implements Initializable {
         EventHandler<javafx.scene.input.MouseEvent> eventHandlerPiece = new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //System.out.println("You clicked a Piece!");
+                System.out.println("You clicked a Piece!");
+                //REFRESH BUGADO: 
+                pclicked = (Piece_ece) event.getSource();
+                refreshStatusTable("actual", pclicked);
+                
                 if (event.getButton() == MouseButton.PRIMARY) {
                     if ((actualPiece != p && (!attacking && !spelling)) || (actualPiece == p && (attacking || spelling))) {
                         try {
