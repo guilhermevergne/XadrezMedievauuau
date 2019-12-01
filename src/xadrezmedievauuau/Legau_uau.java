@@ -12,7 +12,7 @@ public class Legau_uau extends Piece_ece {
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
-        DMG = 10;
+        DMG = 15;
         HEAL = 20;
     }
     
@@ -95,5 +95,12 @@ public class Legau_uau extends Piece_ece {
     @Override
     void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player){
         
+    }
+    @Override
+    void levelUp()throws FileNotFoundException{
+        lvl++;
+        HEAL += 15;
+        Hpmax += 15;
+        Hp += 15;
     }
 }

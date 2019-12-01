@@ -21,7 +21,7 @@ public class Xablau_uau extends Piece_ece {
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
-        DMG = 25;
+        DMG = 30;
     }
 
     @Override
@@ -199,5 +199,12 @@ public class Xablau_uau extends Piece_ece {
         p.getChildren().remove(foguinho4);
         p.getChildren().remove(foguinho5);
     }
-
+    @Override
+    void levelUp()throws FileNotFoundException{
+        lvl++;
+        if(lvl == 5){
+            ManaRegen += 5;
+        }
+        DMG += 20;
+    }
 }

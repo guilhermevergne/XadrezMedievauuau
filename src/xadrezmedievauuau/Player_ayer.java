@@ -32,6 +32,12 @@ class Player_ayer {
         }
     }
     
+    public void cleanseStun(){
+        for(int i = 0; i < Pieces.size(); i++){
+            Pieces.get(i).setStunState(false);
+        }
+    }
+    
     //public void
     
 }

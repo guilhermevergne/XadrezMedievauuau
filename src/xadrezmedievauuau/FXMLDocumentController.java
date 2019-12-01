@@ -95,7 +95,7 @@ public class FXMLDocumentController implements Initializable {
                 spelling = false;
                 moving = false;
 
-                if (actualPiece != null && selectedPiece == null && actualPiece.getPlayer() == round % 2) {
+                if (actualPiece != null && selectedPiece == null && actualPiece.getPlayer() == round % 2 && !actualPiece.getStunState()) {
                         selectedPiece = actualPiece;
                         selectedPiece.setmoveAble();
                         selectedPiece.setatackAble();
@@ -131,6 +131,7 @@ public class FXMLDocumentController implements Initializable {
                         selectedPiece = null;
                         actualPiece = null;
                         refreshStatusTable();
+                        player[round%2].cleanseStun();
                         round++;
                         player[round%2].manaFill();
                     } catch (FileNotFoundException ex) {
@@ -283,7 +284,7 @@ public class FXMLDocumentController implements Initializable {
             //Label actualPiece Name
             label_actualPieceName.setText("Name: " + actualPiece.getName());
             //Label actualPiece Player
-            label_actualPiecePlayer.setText("Player: " + actualPiece.getPlayer());
+            label_actualPiecePlayer.setText("Player: " + player[actualPiece.getPlayer()].getNome());
             //Label actualPiece Hp
             label_actualPieceHp.setText("Hp: " + actualPiece.getHp() + "/" + actualPiece.getHpmax());
             //Label actualPiece Name
@@ -318,7 +319,7 @@ public class FXMLDocumentController implements Initializable {
             //Label selectedPiece Name
             label_selectedPieceName.setText("Name: " + selectedPiece.getName());
             //Label selectedPiece Player
-            label_selectedPiecePlayer.setText("Player: " + selectedPiece.getPlayer());
+            label_selectedPiecePlayer.setText("Player: " + "Player: " + player[selectedPiece.getPlayer()].getNome());
             //Label selectedPiece Hp
             label_selectedPieceHp.setText("Hp: " + selectedPiece.getHp() + "/" + selectedPiece.getHpmax());
             //Label selectedPiece Name
@@ -391,13 +392,13 @@ public class FXMLDocumentController implements Initializable {
 
             //GUARDIAOS
             //String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 200, "Jin", 0, tam -3, 2, 30);
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 200, "Jin", 1, tam -6, 5, 30);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 350, "Jin", 0, tam -3, 2, 30);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 350, "Jin", 1, tam -6, 5, 30);
             //GUERREROS
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Sieghart", 0, tam - 1, 4, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Sieghart", 0, tam - 5, 0, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Sieghart", 1, 4, tam - 1, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Sieghart", 1, 0, tam - 5, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 200, "Sieghart", 0, tam - 1, 4, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 200, "Sieghart", 0, tam - 5, 0, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 200, "Sieghart", 1, 4, tam - 1, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 200, "Sieghart", 1, 0, tam - 5, 20);
 
             //XABLAUS 
             makePiece("Xablau_uau", "imgs/Xablau_uau0.png", 100, "Arme", 0, tam - 1, 1, 50);

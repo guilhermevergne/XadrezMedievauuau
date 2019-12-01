@@ -104,4 +104,11 @@ public class Guerrero_rero extends Piece_ece {
     void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player){
         
     }
+    @Override
+    void levelUp()throws FileNotFoundException{
+        lvl++;
+        DMG += 5;
+        Hpmax += 15;
+        Hp += 15;
+    }
 }

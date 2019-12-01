@@ -19,7 +19,7 @@ public class Guardiao_ao extends Piece_ece {
         this.Mpmax = Mpmax;
         Mp = 0;
         //setImage(new Image(path, width, height, true, true));
-        DMG = 10;
+        DMG = 20;
     }
     
     
@@ -53,8 +53,8 @@ public class Guardiao_ao extends Piece_ece {
     boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
         Piece_ece targetPiece = table[x][y].getPiece();
         
-        if( /*Mp >= 30 */ skillAble && canSpell(p, table, x, y)){
-            //Mp -= 30;
+        if( Mp >= 30  && skillAble && canSpell(p, table, x, y)){
+            Mp -= 30;
             
             if(targetPiece != null && targetPiece.getPlayer() != this.getPlayer()){
                 if(player == 1){
@@ -116,8 +116,9 @@ public class Guardiao_ao extends Piece_ece {
                         System.out.println("Sem local para puxar (P0)");
                     }
                 }
+                targetPiece.setStunState(true);
+                skillAble = false;
             }
-            skillAble = false;
             return true;
         }
         return true;
@@ -141,5 +142,11 @@ public class Guardiao_ao extends Piece_ece {
     @Override
     void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player){
         
+    }
+    @Override
+    void levelUp()throws FileNotFoundException{
+        lvl++;
+        Hpmax += 40;
+        Hp += 40;
     }
 }

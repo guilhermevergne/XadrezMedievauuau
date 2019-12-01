@@ -7,9 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
-    protected int Hpmax, Mpmax, Hp, DMG, Mp;
+    protected int Hpmax, Mpmax, Hp, DMG, Mp, ManaRegen, lvl;
     protected Casas_asas pos;
     protected boolean moveAble, atackAble, skillAble;
+    protected boolean stunState = false;
     protected String nome;
     protected int player;
 
@@ -29,8 +30,10 @@ public abstract class Piece_ece extends ImageView{
         this.nome = nome;
         this.player = player;
         this.pos = pos;
+        lvl = 0;
         Mpmax = 0;
         Mp = 0;
+        ManaRegen = 10;
     }
     
     public String getName(){
@@ -109,11 +112,20 @@ public abstract class Piece_ece extends ImageView{
         this.skillAble = true;
     }
     void manaFill() {
-        Mp += 10;
+        Mp += ManaRegen;
         if (Mp > Mpmax) {
             Mp = Mpmax;
         }
     }
+
+    public boolean getStunState() {
+        return stunState;
+    }
+
+    public void setStunState(boolean stunState) {
+        this.stunState = stunState;
+    }
+    
     
     
     boolean moving(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
@@ -145,6 +157,7 @@ public abstract class Piece_ece extends ImageView{
     abstract boolean canAttack(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract boolean canSpell(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException;
+    abstract void levelUp()throws FileNotFoundException;
     
     
 }
