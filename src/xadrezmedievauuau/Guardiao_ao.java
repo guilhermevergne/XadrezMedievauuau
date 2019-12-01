@@ -53,7 +53,7 @@ public class Guardiao_ao extends Piece_ece {
     boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
         Piece_ece targetPiece = table[x][y].getPiece();
         
-        if( skillAble && canSpell(p, table, x, y)){
+        if( /*Mp >= 30 */ skillAble && canSpell(p, table, x, y)){
             //Mp -= 30;
             
             if(targetPiece != null && targetPiece.getPlayer() != this.getPlayer()){
@@ -125,7 +125,10 @@ public class Guardiao_ao extends Piece_ece {
     
     @Override
     boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
-        return false;
+        int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
+        if(abs(dx) + abs(dy) == 1) return true;
+        if(abs(dx) == 1 && abs(dy) == 1) return true;
+        else return false;
     }
 
     @Override
