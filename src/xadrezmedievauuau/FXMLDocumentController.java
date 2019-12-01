@@ -358,21 +358,21 @@ public class FXMLDocumentController implements Initializable {
             }
             //addPieces();
             //LEGAUS
-            makePiece("Legau_uau", "imgs/Legau_uau.png", 100, "Holy", 0, tam - 2, 1, 50);
-            makePiece("Legau_uau", "imgs/Legau_uau.png", 100, "Holy", 1, 1, tam - 2, 50);
+            makePiece("Legau_uau", "imgs/Legau_uau0.png", 100, "Holy", 0, tam - 2, 1, 50);
+            makePiece("Legau_uau", "imgs/Legau_uau1.png", 100, "Holy", 1, 1, tam - 2, 50);
 
             //GUARDIAOS
             //GUERREROS
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "Jin", 0, tam - 1, 4, 0);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "Jin", 0, tam - 5, 0, 0);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "Jin", 1, 4, tam - 1, 0);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero2.png", 100, "Jin", 1, 0, tam - 5, 0);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Jin", 0, tam - 1, 4, 0);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Jin", 0, tam - 5, 0, 0);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Jin", 1, 4, tam - 1, 0);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Jin", 1, 0, tam - 5, 0);
 
             //XABLAUS 
-            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "Arme", 0, tam - 1, 1, 50);
-            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "Arme", 0, tam - 2, 0, 50);
-            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "Arme", 1, 1, tam - 1, 50);
-            makePiece("Xablau_uau", "imgs/Xablau_uau2.png", 100, "Arme", 1, 0, tam - 2, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau0.png", 100, "Arme", 0, tam - 1, 1, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau0.png", 100, "Arme", 0, tam - 2, 0, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau1.png", 100, "Arme", 1, 1, tam - 1, 50);
+            makePiece("Xablau_uau", "imgs/Xablau_uau1.png", 100, "Arme", 1, 0, tam - 2, 50);
             sceneTab = new Scene(tab, width * tam, height * tam);
         }
         stageTab.setScene(sceneTab);

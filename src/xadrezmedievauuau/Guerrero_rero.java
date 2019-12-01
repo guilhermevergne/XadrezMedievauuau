@@ -27,7 +27,7 @@ public class Guerrero_rero extends Piece_ece {
     boolean canMove(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
         int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
         if (table[x][y].getPiece() == null) {
-            if (abs(dx) + abs(dy) <= 3) {
+            if (abs(dx) + abs(dy) < 3) {
                 return true;
             }
         }
