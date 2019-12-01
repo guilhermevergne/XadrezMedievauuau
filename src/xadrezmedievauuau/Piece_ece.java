@@ -44,6 +44,14 @@ public abstract class Piece_ece extends ImageView{
     public String getpath(){
         return path;
     }
+
+    public int getDamage(){
+        return DMG;
+    }
+    
+    public void setDamage(int DMG){
+        this.DMG = DMG;
+    }
     
     public int getHp() {
         return Hp;

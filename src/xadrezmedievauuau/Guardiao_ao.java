@@ -24,8 +24,24 @@ public class Guardiao_ao extends Piece_ece {
     
     @Override
     boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y){
-        if(abs(x - this.pos.getX()) + abs(y - this.pos.getY()) <= 3){
-        return true;
+        int dx = this.pos.getposX() - x, dy = this.pos.getposY() - y;
+        if (table[x][y].getPiece() == null) {
+            if(player == 1){
+                if(abs(dx) == 1 || abs(dy) == 1){
+                    if(dx == -1 && dy == 0) return true;
+                    if(dx == 0 && dy == 1) return true;
+                    if(abs(dx) == 1 && abs(dy) == 1) return true;
+                }
+                else return false;
+            }
+            else{
+                if(abs(dx) == 1 || abs(dy) == 1){
+                    if(dx == 1 && dy == 0) return true;
+                    if(dx == 0 && dy == -1) return true;
+                    if(abs(dx) == 1 && abs(dy) == 1) return true;
+                }
+                else return false;
+            }
         }
         return false;
     }
@@ -33,6 +49,7 @@ public class Guardiao_ao extends Piece_ece {
 
     @Override
     boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
+        
         return true;
     }
     

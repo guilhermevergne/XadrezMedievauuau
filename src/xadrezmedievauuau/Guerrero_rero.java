@@ -15,9 +15,11 @@ import javafx.scene.layout.GridPane;
  */
 public class Guerrero_rero extends Piece_ece {
 
-    public Guerrero_rero(String path, int Hpmax, String nome, int player, Casas_asas pos, int width, int height) {
+    public Guerrero_rero(String path, int Hpmax, String nome, int player, Casas_asas pos, int Mpmax, int width, int height) {
         super(path, Hpmax, nome, player, pos);
         //setImage(new Image(path, width, height, true, true));
+        this.Mpmax = Mpmax;
+        Mp = 0;
         moveAble = true;
         DMG = 25;
     }
@@ -37,16 +39,64 @@ public class Guerrero_rero extends Piece_ece {
 
     @Override
     boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
+        if(Mp >= 20 && skillAble && canSpell(p, table, x, y)){
+            Mp -= 20;
+            if(table[x][y].getPiece() != null && table[x][y].getPiece().player != player){
+                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                if (table[x][y].getPiece().getHp() <= 0) {
+                    Player[table[x][y].getPiece().getPlayer()].getPieces().remove(table[x][y].getPiece());
+                    p.getChildren().remove(table[x][y].getPiece());
+                    table[x][y].getPiece().pos.setPiece(null);
+                }
+                DMG += 5;
+            }
+            skillAble = false;
+            return true;
+        }
         return true;
     }
 
     @Override
     boolean canAttack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        int dx =this.pos.getposX() -x, dy = this.pos.getposY() -y;
+        if(this.player == 1){
+            if(abs(dx) == 1 || abs(dy) == 1){
+                    if(abs(dx) == 1 && dy == 0) return true;
+                    if(dx == 0 && abs(dy) == 1) return true;
+                    if(dx == -1 && dy == 1) return true;
+                }
+                else return false;
+        }
+        else{            
+            if(abs(dx) == 1 || abs(dy) == 1){
+                    if(abs(dx) == 1 && dy == 0) return true;
+                    if(dx == 0 && abs(dy) == 1) return true;
+                    if(dx == 1 && dy == -1) return true;                    
+                }
+                else return false;
+        }
         return false;
     }
 
     @Override
     boolean canSpell(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        int dx =this.pos.getposX() -x, dy = this.pos.getposY() -y;
+        if(this.player == 1){
+            if(abs(dx) == 1 || abs(dy) == 1){
+                    if(abs(dx) == 1 && dy == 0) return true;
+                    if(dx == 0 && abs(dy) == 1) return true;
+                    if(dx == -1 && dy == 1) return true;
+                }
+                else return false;
+        }
+        else{            
+            if(abs(dx) == 1 || abs(dy) == 1){
+                    if(abs(dx) == 1 && dy == 0) return true;
+                    if(dx == 0 && abs(dy) == 1) return true;
+                    if(dx == 1 && dy == -1) return true;                    
+                }
+                else return false;
+        }
         return false;
     }
     
