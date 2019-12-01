@@ -23,23 +23,6 @@ public class Guardiao_ao extends Piece_ece {
     
     
     @Override
-    boolean moving(GridPane p, Casas_asas[][] table ,int x ,int y) throws FileNotFoundException {
-        if(ismoveAble()){
-            if(canMove(p, table , x , y)){
-                pos.setPiece(null);
-                pos.setPiece(null);
-                p.getChildren().remove(this);
-                p.add(this,x,y);
-                table[x][y].setPiece(this);
-                pos = table[x][y];   
-                System.out.println("Deu bom");
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    @Override
     boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y){
         if(abs(x - this.pos.getX()) + abs(y - this.pos.getY()) <= 3){
         return true;
@@ -47,13 +30,9 @@ public class Guardiao_ao extends Piece_ece {
         return false;
     }
 
-    @Override
-    boolean atack(GridPane p, Casas_asas[][] table ,int x ,int y) throws FileNotFoundException {
-        return true;
-    }
 
     @Override
-    boolean poderzinho(Casas_asas target) throws FileNotFoundException {
+    boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
         return true;
     }
     

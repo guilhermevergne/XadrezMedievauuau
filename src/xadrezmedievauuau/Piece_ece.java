@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
-    protected int Hpmax, Hp, DMG, Mpmax, Mp;
+    protected int Hpmax, Mpmax, Hp, DMG, Mp;
     protected Casas_asas pos;
     protected boolean moveAble, atackAble, skillAble;
     protected String nome;
@@ -100,10 +100,39 @@ public abstract class Piece_ece extends ImageView{
     public void setskillAble() {
         this.skillAble = true;
     }
+    void manaFill() {
+        Mp += 10;
+        if (Mp > Mpmax) {
+            Mp = Mpmax;
+        }
+    }
     
-    abstract boolean moving(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;
-    abstract boolean atack(GridPane p,Casas_asas[][] table ,int x ,int y)throws FileNotFoundException;
-    abstract boolean poderzinho(Casas_asas target)throws FileNotFoundException;
+    
+    boolean moving(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        if (moveAble && canMove(p, table, x, y)) {
+            pos.setPiece(null);
+            p.getChildren().remove(this);
+            p.add(this, x, y);
+            table[x][y].setPiece(this);
+            pos = table[x][y];
+            moveAble = false;
+            return true;
+        }
+        return false;
+    }
+    
+    boolean atack(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+        if (atackAble && canAttack(p, table, x, y)) {
+            if (table[x][y].getPiece() != null && table[x][y].getPiece().player != player) {
+                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                atackAble = false;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    abstract boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y)throws FileNotFoundException;
     abstract boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract boolean canAttack(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract boolean canSpell(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
