@@ -391,8 +391,8 @@ public class FXMLDocumentController implements Initializable {
 
             //GUARDIAOS
             //String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 200, "Jin", 0, tam -3, 2, 0);
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 200, "Jin", 1, tam -6, 5, 0);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 200, "Jin", 0, tam -3, 2, 30);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 200, "Jin", 1, tam -6, 5, 30);
             //GUERREROS
             makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 0, tam - 1, 4, 20);
             makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 0, tam - 5, 0, 20);
@@ -650,7 +650,7 @@ public class FXMLDocumentController implements Initializable {
             player[playerID].addPiece(newMago);
             //    return newMago;
         } else if (classe.equals("Guardiao_ao")) {
-            Guardiao_ao newTank = new Guardiao_ao(foto, hpMax, name, playerID, table[initPosX][initPosY], width, height);
+            Guardiao_ao newTank = new Guardiao_ao(foto, hpMax, name, playerID, table[initPosX][initPosY], mpMax, width, height);
             tab.add(newTank, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newTank);
             addEventesToPiece(newTank);
