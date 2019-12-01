@@ -36,7 +36,7 @@ public class Guerrero_rero extends Piece_ece {
 
 
     @Override
-    boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
+    boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
         return true;
     }
 
@@ -48,5 +48,10 @@ public class Guerrero_rero extends Piece_ece {
     @Override
     boolean canSpell(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
         return false;
+    }
+    
+    @Override
+    void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player){
+        
     }
 }

@@ -13,7 +13,7 @@ public class Legau_uau extends Piece_ece {
         this.Mpmax = Mpmax;
         Mp = 0;
         DMG = 10;
-        HEAL = 15;
+        HEAL = 20;
     }
     
 
@@ -54,12 +54,14 @@ public class Legau_uau extends Piece_ece {
 
 
     @Override
-    boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y) throws FileNotFoundException {
-        if(canAttack(p, table, x, y) && table[x][y].getPiece() != null && table[x][y].getPiece().getPlayer() == player){
+    boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
+        if(Mp >= 20 && canSpell(p, table, x, y) && table[x][y].getPiece() != null && table[x][y].getPiece().getPlayer() == player){
+            Mp -= 20;
             table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() + HEAL);
             if(table[x][y].getPiece().getHp() > table[x][y].getPiece().getHpmax()){
                 table[x][y].getPiece().setHp(table[x][y].getPiece().getHpmax());
             }
+            skillAble = false;
         }
         return true;
     }
@@ -88,5 +90,10 @@ public class Legau_uau extends Piece_ece {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player){
+        
     }
 }

@@ -132,10 +132,11 @@ public abstract class Piece_ece extends ImageView{
         return false;
     }
     
-    abstract boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y)throws FileNotFoundException;
+    abstract boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player)throws FileNotFoundException;
     abstract boolean canMove(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract boolean canAttack(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
     abstract boolean canSpell(GridPane p, Casas_asas[][] table ,int x ,int y)  throws FileNotFoundException;
+    abstract void apagarPoderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException;
     
     
 }

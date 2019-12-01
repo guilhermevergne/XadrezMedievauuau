@@ -52,6 +52,7 @@ public class FXMLDocumentController implements Initializable {
     Stage stageStat = new Stage();
     Scene sceneStat;
     Casas_asas[][] table;
+    Player_ayer player[] = new Player_ayer[2];
     int round;
     int tam;
     int width = 100;
@@ -69,8 +70,6 @@ public class FXMLDocumentController implements Initializable {
         tam = Integer.parseInt(Tam.getText());
         width = Integer.parseInt(Width.getText());
         height = Integer.parseInt(Height.getText());
-        String nome1 = P1.getText();
-        String nome2 = P2.getText();
         startgame(tam);
     }
 
@@ -81,10 +80,11 @@ public class FXMLDocumentController implements Initializable {
 
     void startgame(int tam) throws FileNotFoundException {
         round = 0;
-        //setPlayer();
+        setPlayer();
         makeTable(tam);
         makeStatusTable();
         gameStarted = true;
+        player[0].manaFill();
     }
 
     void addSelectHandler(Button b) {
@@ -132,6 +132,7 @@ public class FXMLDocumentController implements Initializable {
                         actualPiece = null;
                         refreshStatusTable();
                         round++;
+                        player[round%2].manaFill();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -356,7 +357,6 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
             //addPieces();
-
             //LEGAUS
             makePiece("Legau_uau", "imgs/Legau_uau.png", 100, "Holy", 0, tam - 2, 1, 50);
             makePiece("Legau_uau", "imgs/Legau_uau.png", 100, "Holy", 1, 1, tam - 2, 50);
@@ -424,6 +424,8 @@ public class FXMLDocumentController implements Initializable {
                             Poderzinho();
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -490,6 +492,8 @@ public class FXMLDocumentController implements Initializable {
                         try {
                             Poderzinho();
                         } catch (FileNotFoundException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -567,8 +571,10 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(attackedPiece.getHp());
         //Kill
         if (attackedPiece.getHp() <= 0) {
+            player[attackedPiece.player].getPieces().remove(attackedPiece);
             attackedPiece.pos.setPiece(null);
             tab.getChildren().remove(attackedPiece);
+            attackedPiece = null;
         }
         actualPiece = null;
         refreshStatusTable();
@@ -585,13 +591,16 @@ public class FXMLDocumentController implements Initializable {
         moving = false;
     }
 
-    void Poderzinho() throws FileNotFoundException {
-        selectedPiece.poderzinho(tab, table, tclicked.getposX(), tclicked.getposY());
-        System.out.println("Spellou");
+    void Poderzinho() throws FileNotFoundException, InterruptedException {
+        Casas_asas casa = tclicked;
+        selectedPiece.poderzinho(tab, table, tclicked.getposX(), tclicked.getposY(), player);
         repintar();
         actualPiece = null;
         refreshStatusTable();
         spelling = false;
+        
+        //selectedPiece.apagarPoderzinho(tab, table, casa.getposX(), casa.getposY(), player);
+        
     }
 
     void makePiece(String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax) throws FileNotFoundException {
@@ -600,12 +609,14 @@ public class FXMLDocumentController implements Initializable {
             tab.add(newGuerreiro, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newGuerreiro);
             addEventesToPiece(newGuerreiro);
+            player[playerID].addPiece(newGuerreiro);
             //    return newGuerreiro;
         } else if (classe.equals("Xablau_uau")) {
             Xablau_uau newMago = new Xablau_uau(foto, hpMax, name, playerID, table[initPosX][initPosY], mpMax, width, height);
             tab.add(newMago, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newMago);
             addEventesToPiece(newMago);
+            player[playerID].addPiece(newMago);
             //    return newMago;
         } else if (classe.equals("Guardiao_ao")) {
             System.out.println("FALTA CRIAR O TANK PORAR");
@@ -614,6 +625,16 @@ public class FXMLDocumentController implements Initializable {
             tab.add(newsacer, initPosX, initPosY);
             table[initPosX][initPosY].setPiece(newsacer);
             addEventesToPiece(newsacer);
+            player[playerID].addPiece(newsacer);
+        }
+    }
+
+    private void setPlayer() {
+        if(!gameStarted){
+            player[0] = new Player_ayer();
+            player[0].setNome(P1.getText());
+            player[1] = new Player_ayer();
+            player[1].setNome(P2.getText());
         }
     }
 }
