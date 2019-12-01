@@ -394,10 +394,10 @@ public class FXMLDocumentController implements Initializable {
             makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 200, "Jin", 0, tam -3, 2, 30);
             makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 200, "Jin", 1, tam -6, 5, 30);
             //GUERREROS
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 0, tam - 1, 4, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 0, tam - 5, 0, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 1, 4, tam - 1, 20);
-            makePiece("Guerrero_rero", "imgs/Guerrero_rero.png", 100, "Sieghart", 1, 0, tam - 5, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Sieghart", 0, tam - 1, 4, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 100, "Sieghart", 0, tam - 5, 0, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Sieghart", 1, 4, tam - 1, 20);
+            makePiece("Guerrero_rero", "imgs/Guerrero_rero1.png", 100, "Sieghart", 1, 0, tam - 5, 20);
 
             //XABLAUS 
             makePiece("Xablau_uau", "imgs/Xablau_uau0.png", 100, "Arme", 0, tam - 1, 1, 50);
