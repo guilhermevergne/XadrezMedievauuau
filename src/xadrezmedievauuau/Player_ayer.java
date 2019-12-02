@@ -1,5 +1,6 @@
 package xadrezmedievauuau;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 class Player_ayer {
@@ -37,6 +38,8 @@ class Player_ayer {
             Pieces.get(i).setStunState(false);
         }
     }
+    
+    
     
     //public void
     

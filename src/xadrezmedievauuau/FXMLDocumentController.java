@@ -47,6 +47,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField P2;
 
     //"define"
+    Stage stageVictory = new Stage();
+    Scene sceneVictory;
     Stage stageTab = new Stage();
     Scene sceneTab;
     Stage stageStat = new Stage();
@@ -63,7 +65,7 @@ public class FXMLDocumentController implements Initializable {
     boolean attacking, spelling, moving;
     boolean gameStarted = false;
     GridPane tab;
-    AnchorPane statTab;
+    AnchorPane statTab, victoryTab;
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws FileNotFoundException {
@@ -123,15 +125,19 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if (selectedPiece != null) {
+                    if(player[(round + 1)%2].getPieces().size() == 0 || player[round].getNome().equals("EXODIA")){
+                        makeVictoryTable();
+                    }
                     try {
                         attacking = false;
                         spelling = false;
                         moving = false;
                         repintar();
+                        selectedPiece.levelUp();
                         selectedPiece = null;
                         actualPiece = null;
                         refreshStatusTable();
-                        player[round%2].cleanseStun();
+                        player[round%2].cleanseStun();                        
                         round++;
                         player[round%2].manaFill();
                     } catch (FileNotFoundException ex) {
@@ -151,9 +157,50 @@ public class FXMLDocumentController implements Initializable {
     Label label_actualPiecePlayer, label_selectedPiecePlayer;
     Label label_actualPieceHp, label_selectedPieceHp;
     Label label_actualPieceMp, label_selectedPieceMp;
-    Label label_actualPieceRage, label_selectedPieceRage;
-    ImageView actualPieceImg, selectedPieceImg;
-
+    Label label_actualPieceAtk, label_selectedPieceAtk;
+    Label label_actualPieceStun, label_selectedPieceStun;
+    ImageView actualPieceImg, selectedPieceImg, Para_Bens;
+    Label label_Win, label_ParaBens, label_Loser;
+    
+    void makeVictoryTable(){
+        victoryTab = new AnchorPane();
+        
+        label_Win = new Label("VITORIA");
+        label_Win.setFont(new Font("Times New Roman", 70));
+        label_Win.setTranslateX(70 + 150);
+        label_Win.setTranslateY(120);
+        label_Win.setTextFill(Color.YELLOW);
+        victoryTab.getChildren().addAll(label_Win);
+        
+        label_ParaBens = new Label("PARA-BENS, VC GANHÔ " + player[round%2].getNome() + "\nE AGR TA FELIZAO");
+        label_ParaBens.setFont(new Font("Times New Roman", 30));
+        label_ParaBens.setTranslateX(30 + 150);
+        label_ParaBens.setTranslateY(195);
+        label_ParaBens.setTextFill(Color.MAGENTA);
+        victoryTab.getChildren().addAll(label_ParaBens);
+        
+        label_Loser = new Label("JJKJK " + player[(round + 1)%2].getNome() + " PERDEU \nE TA TILTADO AGR");
+        label_Loser.setFont(new Font("Times New Roman", 30));
+        label_Loser.setTranslateX(0);
+        label_Loser.setTranslateY(500);
+        label_Loser.setTextFill(Color.DARKGOLDENROD);
+        victoryTab.getChildren().addAll(label_Loser);
+        
+        Para_Bens = new ImageView("imgs/Para-Bens.png");
+        victoryTab.getChildren().addAll(Para_Bens);
+        Para_Bens.setTranslateX(140);
+        Para_Bens.setTranslateY(250);
+        
+        
+        sceneVictory = new Scene(victoryTab, 800, 600);
+        stageVictory.setScene(sceneVictory);
+        stageVictory.setY(200);
+        stageVictory.setX(200);
+        stageVictory.show();
+        stageStat.close();
+        stageTab.close();
+    }
+    
     void makeStatusTable() {
         if (!gameStarted) {
             statTab = new AnchorPane();
@@ -173,13 +220,18 @@ public class FXMLDocumentController implements Initializable {
             label_actualPiece.setTranslateY(0);
             label_actualPiece.setFont(new Font("Times New Roman", 20));
             statTab.getChildren().addAll(label_actualPiece);
-            //Label actualPiece Rage;
-            label_actualPieceRage = new Label("");
-            label_actualPieceRage.setTranslateX(10);
-            label_actualPieceRage.setTranslateY(90);
-            label_actualPieceRage.setFont(new Font("Times New Roman", 20));
-            label_actualPieceRage.setTextFill(Color.FIREBRICK);
-            statTab.getChildren().addAll(label_actualPieceRage);
+            //Label actualPiece Stun
+            label_actualPieceStun = new Label("");
+            label_actualPieceStun.setTranslateX(250);
+            label_actualPieceStun.setTranslateY(90);
+            label_actualPieceStun.setFont(new Font("Times New Roman", 20));
+            statTab.getChildren().addAll(label_actualPieceStun);
+            //Label actualPiece Atk;
+            label_actualPieceAtk = new Label("Atk: ");
+            label_actualPieceAtk.setTranslateX(10);
+            label_actualPieceAtk.setTranslateY(90);
+            label_actualPieceAtk.setFont(new Font("Times New Roman", 20));            
+            statTab.getChildren().addAll(label_actualPieceAtk);
             //Label actualPiece Name
             label_actualPieceName = new Label("Name: ");
             label_actualPieceName.setTranslateX(10);
@@ -225,13 +277,18 @@ public class FXMLDocumentController implements Initializable {
             label_selectedPiece.setTranslateY(0 + 210);
             label_selectedPiece.setFont(new Font("Times New Roman", 20));
             statTab.getChildren().addAll(label_selectedPiece);
-            //Label slectedPiece Rage
-            label_selectedPieceRage = new Label("");
-            label_selectedPieceRage.setTranslateX(10);
-            label_selectedPieceRage.setTranslateY(90 + 210);
-            label_selectedPieceRage.setFont(new Font("Times New Roman", 20));
-            label_selectedPieceRage.setTextFill(Color.FIREBRICK);
-            statTab.getChildren().addAll(label_selectedPieceRage);
+            //Label selectedPiece Stun
+            label_selectedPieceStun = new Label("");
+            label_selectedPieceStun.setTranslateX(250);
+            label_selectedPieceStun.setTranslateY(90 + 210);
+            label_selectedPieceStun.setFont(new Font("Times New Roman", 20));
+            statTab.getChildren().addAll(label_selectedPieceStun);
+            //Label slectedPiece Atk
+            label_selectedPieceAtk = new Label("Atk: ");
+            label_selectedPieceAtk.setTranslateX(10);
+            label_selectedPieceAtk.setTranslateY(90 + 210);
+            label_selectedPieceAtk.setFont(new Font("Times New Roman", 20));
+            statTab.getChildren().addAll(label_selectedPieceAtk);
             //Label selectedPiece Name
             label_selectedPieceName = new Label("Name: ");
             label_selectedPieceName.setTranslateX(10);
@@ -276,11 +333,13 @@ public class FXMLDocumentController implements Initializable {
         if (actualPiece != null) {
             //Label actualPiece Title
             label_actualPiece = new Label("actualPiece");
+            //Label actualPiece Stun
+            if(actualPiece.getStunState()){
+                label_actualPieceStun.setText("STUNNED");
+                label_actualPieceStun.setTextFill(Color.CYAN);
+            }            
             //Label actualPiece Rage
-            if(actualPiece.getName().equals("Sieghart")){                
-                label_actualPieceRage.setText("Rage: " + "+" + (actualPiece.getDamage() -25) + " Atk");
-            }
-            else label_actualPieceRage.setText("");
+            label_actualPieceAtk.setText("Atk: " + actualPiece.getDamage());            
             //Label actualPiece Name
             label_actualPieceName.setText("Name: " + actualPiece.getName());
             //Label actualPiece Player
@@ -295,8 +354,10 @@ public class FXMLDocumentController implements Initializable {
         else {           
             //Label actualPiece Title
             label_actualPiece = new Label("actualPiece");
+            //Label actualPiece Stun
+            label_actualPieceStun.setText("");
             //Label actualPiece Rage
-            label_actualPieceRage.setText("");
+            label_actualPieceAtk.setText("Atk: ");
             //Label actualPiece Name
             label_actualPieceName.setText("Name: ");
             //Label actualPiece Player
@@ -312,10 +373,13 @@ public class FXMLDocumentController implements Initializable {
         /*  selectedPiece  */
         //se não for null
         if (selectedPiece != null) {
-            //Label selectedPiece Rage
-            if(selectedPiece.getName().equals("Sieghart")){
-                label_selectedPieceRage.setText("Rage: +" + (selectedPiece.getDamage() -25) + "Atk");
+            //Label selectedPiece Stun
+            if(selectedPiece.getStunState()){
+                label_selectedPieceStun.setText("STUNNED");
+                label_selectedPieceStun.setTextFill(Color.CYAN);
             }
+            //Label selectedPiece Rage            
+            label_selectedPieceAtk.setText("Atk: " + selectedPiece.getDamage());            
             //Label selectedPiece Name
             label_selectedPieceName.setText("Name: " + selectedPiece.getName());
             //Label selectedPiece Player
@@ -328,10 +392,12 @@ public class FXMLDocumentController implements Initializable {
             selectedPieceImg.setImage(new Image(selectedPiece.getpath()));
         } //se for null
         else {
+            //Label selectedPiece Stun
+            label_selectedPieceStun.setText("");
             //Label selectedPiece Name
             label_selectedPieceName.setText("Name: ");
             //Label selectedPiece Rage
-            label_selectedPieceRage.setText("");
+            label_selectedPieceAtk.setText("Atk: ");
             //Label selectedPiece Player
             label_selectedPiecePlayer.setText("Player: ");
             //Label selectedPiece Hp
