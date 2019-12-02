@@ -148,5 +148,14 @@ public class Guardiao_ao extends Piece_ece {
         lvl++;
         Hpmax += 40;
         Hp += 40;
+        if(lvl == 5){
+            Hpmax *= 2;
+            DMG *= 2;
+        }
+        if(lvl >  5){
+            Hpmax += 10;
+            Hp += 10;
+            DMG += 5;
+        }
     }
 }

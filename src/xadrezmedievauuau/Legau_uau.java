@@ -102,5 +102,18 @@ public class Legau_uau extends Piece_ece {
         HEAL += 15;
         Hpmax += 15;
         Hp += 15;
+        if(lvl == 5){
+            HEAL += 5;
+            HEAL *= 2;
+            Hpmax += 25;
+            Hp += 25;
+            DMG *= 2;
+            ManaRegen += 5;
+        }
+        if(lvl > 5){
+            Hpmax += 10;
+            Hp += 10;
+        }
+        
     }
 }

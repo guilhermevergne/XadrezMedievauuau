@@ -15,11 +15,13 @@ public class Xablau_uau extends Piece_ece {
     ImageView foguinho3 = new ImageView("imgs/Foguinho.png");
     ImageView foguinho4 = new ImageView("imgs/Foguinho.png");
     ImageView foguinho5 = new ImageView("imgs/Foguinho.png");
+    int wit;
 
     public Xablau_uau(String path, int Hpmax, String nome, int player, Casas_asas pos, int Mpmax, int width, int height) {
         super(path, Hpmax, nome, player, pos);
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
+        wit = 1;
         Mp = 0;
         DMG = 30;
     }
@@ -70,7 +72,7 @@ public class Xablau_uau extends Piece_ece {
             
             
             if (table[x][y].getPiece() != null && table[x][y].getPiece().player != player) {
-                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - 2 * DMG);
+                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - 2 * wit * DMG);
                 if (table[x][y].getPiece().getHp() <= 0) {
                     Player[table[x][y].getPiece().getPlayer()].getPieces().remove(table[x][y].getPiece());
                     p.getChildren().remove(table[x][y].getPiece());
@@ -78,7 +80,7 @@ public class Xablau_uau extends Piece_ece {
                 }
             }
             if (table[x + 1][y].getPiece() != null && table[x + 1][y].getPiece().player != player) {
-                table[x + 1][y].getPiece().setHp(table[x + 1][y].getPiece().getHp() - DMG);
+                table[x + 1][y].getPiece().setHp(table[x + 1][y].getPiece().getHp() - wit * DMG);
                 if (table[x + 1][y].getPiece().getHp() <= 0) {
                     Player[table[x + 1][y].getPiece().getPlayer()].getPieces().remove(table[x + 1][y].getPiece());
                     p.getChildren().remove(table[x + 1][y].getPiece());
@@ -86,7 +88,7 @@ public class Xablau_uau extends Piece_ece {
                 }
             }
             if (table[x][y + 1].getPiece() != null && table[x][y + 1].getPiece().player != player) {
-                table[x][y + 1].getPiece().setHp(table[x][y + 1].getPiece().getHp() - DMG);
+                table[x][y + 1].getPiece().setHp(table[x][y + 1].getPiece().getHp() - wit * DMG);
                 if (table[x][y + 1].getPiece().getHp() <= 0) {
                     Player[table[x][y + 1].getPiece().getPlayer()].getPieces().remove(table[x][y + 1].getPiece());
                     p.getChildren().remove(table[x][y + 1].getPiece());
@@ -94,7 +96,7 @@ public class Xablau_uau extends Piece_ece {
                 }
             }
             if (table[x - 1][y].getPiece() != null && table[x - 1][y].getPiece().player != player) {
-                table[x - 1][y].getPiece().setHp(table[x - 1][y].getPiece().getHp() - DMG);
+                table[x - 1][y].getPiece().setHp(table[x - 1][y].getPiece().getHp() -wit * DMG);
                 if (table[x - 1][y].getPiece().getHp() <= 0) {
                     Player[table[x - 1][y].getPiece().getPlayer()].getPieces().remove(table[x - 1][y].getPiece());
                     p.getChildren().remove(table[x - 1][y].getPiece());
@@ -102,7 +104,7 @@ public class Xablau_uau extends Piece_ece {
                 }
             }
             if (table[x][y - 1].getPiece() != null && table[x][y - 1].getPiece().player != player) {
-                table[x][y - 1].getPiece().setHp(table[x][y - 1].getPiece().getHp() - DMG);
+                table[x][y - 1].getPiece().setHp(table[x][y - 1].getPiece().getHp() - wit *DMG);
                 if (table[x][y - 1].getPiece().getHp() <= 0) {
                     Player[table[x][y - 1].getPiece().getPlayer()].getPieces().remove(table[x][y - 1].getPiece());
                     p.getChildren().remove(table[x][y - 1].getPiece());
@@ -202,9 +204,20 @@ public class Xablau_uau extends Piece_ece {
     @Override
     void levelUp()throws FileNotFoundException{
         lvl++;
-        if(lvl == 5){
-            ManaRegen += 5;
-        }
         DMG += 20;
+        if(lvl == 5){
+            DMG += 20;
+            Hpmax += 70;
+            Hp += 20;
+            ManaRegen += 5;
+            wit++;
+            crit = 10;
+            critdmg = 1;
+        }
+        if(lvl > 5){
+            Hpmax += 10;
+            Hp += 10;
+            DMG += 5;
+        }
     }
 }

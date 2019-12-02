@@ -1,13 +1,14 @@
 package xadrezmedievauuau;
 
 import java.io.FileNotFoundException;
+import java.util.Random;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece_ece extends ImageView{
-    protected int Hpmax, Mpmax, Hp, DMG, Mp, ManaRegen, lvl;
+    protected int Hpmax, Mpmax, Hp, DMG, Mp, ManaRegen, lvl, crit, critdmg;
     protected Casas_asas pos;
     protected boolean moveAble, atackAble, skillAble;
     protected boolean stunState = false;
@@ -33,8 +34,15 @@ public abstract class Piece_ece extends ImageView{
         lvl = 0;
         Mpmax = 0;
         Mp = 0;
+        critdmg = 0;
+        crit = 0;
         ManaRegen = 10;
     }
+
+    public int getLvl() {
+        return lvl;
+    }
+    
     
     public String getName(){
         return nome;
@@ -145,6 +153,9 @@ public abstract class Piece_ece extends ImageView{
         if (atackAble && canAttack(p, table, x, y)) {
             if (table[x][y].getPiece() != null && table[x][y].getPiece().player != player) {
                 table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                if(new Random().nextInt(100) < crit){
+                    table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - critdmg*DMG);
+                }
                 atackAble = false;
                 return true;
             }

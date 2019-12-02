@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package xadrezmedievauuau;
 
 import java.io.FileNotFoundException;
@@ -17,6 +12,8 @@ public class Guerrero_rero extends Piece_ece {
 
     public Guerrero_rero(String path, int Hpmax, String nome, int player, Casas_asas pos, int Mpmax, int width, int height) {
         super(path, Hpmax, nome, player, pos);
+        crit = 15;
+        critdmg = 2;
         //setImage(new Image(path, width, height, true, true));
         this.Mpmax = Mpmax;
         Mp = 0;
@@ -39,16 +36,15 @@ public class Guerrero_rero extends Piece_ece {
 
     @Override
     boolean poderzinho(GridPane p, Casas_asas[][] table, int x, int y, Player_ayer[] Player) throws FileNotFoundException {
-        if(Mp >= 20 && skillAble && canSpell(p, table, x, y)){
-            Mp -= 20;
+        if(Mp >= 30 && skillAble && canSpell(p, table, x, y)){
+            Mp -= 30;
             if(table[x][y].getPiece() != null && table[x][y].getPiece().player != player){
-                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - DMG);
+                table[x][y].getPiece().setHp(table[x][y].getPiece().getHp() - (critdmg + 1)*DMG);
                 if (table[x][y].getPiece().getHp() <= 0) {
                     Player[table[x][y].getPiece().getPlayer()].getPieces().remove(table[x][y].getPiece());
                     p.getChildren().remove(table[x][y].getPiece());
                     table[x][y].getPiece().pos.setPiece(null);
                 }
-                DMG += 5;
             }
             skillAble = false;
             return true;
@@ -110,5 +106,16 @@ public class Guerrero_rero extends Piece_ece {
         DMG += 5;
         Hpmax += 15;
         Hp += 15;
+        if(lvl == 5){
+            Hpmax += 25;
+            Hp += 25;
+            crit += 10;
+            critdmg += 2;
+        }
+        if(lvl > 5){
+            Hpmax += 5;
+            Hp += 5;
+            DMG += 5;
+        }
     }
 }
