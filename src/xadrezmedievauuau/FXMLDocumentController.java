@@ -69,10 +69,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws FileNotFoundException {
-        tam = Integer.parseInt(Tam.getText());
-        width = Integer.parseInt(Width.getText());
-        height = Integer.parseInt(Height.getText());
-        startgame(tam);
+        if (Integer.parseInt(Tam.getText()) >= 8) {
+            tam = Integer.parseInt(Tam.getText());
+            width = Integer.parseInt(Width.getText());
+            height = Integer.parseInt(Height.getText());
+            startgame(tam);
+        }
     }
 
     @Override
@@ -87,6 +89,7 @@ public class FXMLDocumentController implements Initializable {
         makeStatusTable();
         gameStarted = true;
         player[0].manaFill();
+
     }
 
     void addSelectHandler(Button b) {
@@ -98,11 +101,11 @@ public class FXMLDocumentController implements Initializable {
                 moving = false;
 
                 if (actualPiece != null && selectedPiece == null && actualPiece.getPlayer() == round % 2 && !actualPiece.getStunState()) {
-                        selectedPiece = actualPiece;
-                        selectedPiece.setmoveAble();
-                        selectedPiece.setatackAble();
-                        selectedPiece.setskillAble();
-                    
+                    selectedPiece = actualPiece;
+                    selectedPiece.setmoveAble();
+                    selectedPiece.setatackAble();
+                    selectedPiece.setskillAble();
+
                 } else if (selectedPiece != null) {
                     System.out.println("Não pode selecionar outra peça!");
                 } else if (actualPiece == null) {
@@ -125,7 +128,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if (selectedPiece != null) {
-                    if(player[(round + 1)%2].getPieces().size() == 0 || player[round].getNome().equals("EXODIA")){
+                    if (player[(round + 1) % 2].getPieces().size() == 0 || player[round].getNome().equals("EXODIA")) {
                         makeVictoryTable();
                     }
                     try {
@@ -137,9 +140,9 @@ public class FXMLDocumentController implements Initializable {
                         selectedPiece = null;
                         actualPiece = null;
                         refreshStatusTable();
-                        player[round%2].cleanseStun();                        
+                        player[round % 2].cleanseStun();
                         round++;
-                        player[round%2].manaFill();
+                        player[round % 2].manaFill();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -161,37 +164,36 @@ public class FXMLDocumentController implements Initializable {
     Label label_actualPieceStun, label_selectedPieceStun;
     ImageView actualPieceImg, selectedPieceImg, Para_Bens;
     Label label_Win, label_ParaBens, label_Loser;
-    
-    void makeVictoryTable(){
+
+    void makeVictoryTable() {
         victoryTab = new AnchorPane();
-        
+
         label_Win = new Label("VITORIA");
         label_Win.setFont(new Font("Times New Roman", 70));
         label_Win.setTranslateX(70 + 150);
         label_Win.setTranslateY(120);
         label_Win.setTextFill(Color.YELLOW);
         victoryTab.getChildren().addAll(label_Win);
-        
-        label_ParaBens = new Label("PARA-BENS, VC GANHÔ " + player[round%2].getNome() + "\nE AGR TA FELIZAO");
+
+        label_ParaBens = new Label("PARA-BENS, VC GANHÔ " + player[round % 2].getNome() + "\nE AGR TA FELIZAO");
         label_ParaBens.setFont(new Font("Times New Roman", 30));
         label_ParaBens.setTranslateX(30 + 150);
         label_ParaBens.setTranslateY(195);
         label_ParaBens.setTextFill(Color.MAGENTA);
         victoryTab.getChildren().addAll(label_ParaBens);
-        
-        label_Loser = new Label("JJKJK " + player[(round + 1)%2].getNome() + " PERDEU \nE TA TILTADO AGR");
+
+        label_Loser = new Label("JJKJK " + player[(round + 1) % 2].getNome() + " PERDEU \nE TA TILTADO AGR");
         label_Loser.setFont(new Font("Times New Roman", 30));
         label_Loser.setTranslateX(0);
         label_Loser.setTranslateY(500);
         label_Loser.setTextFill(Color.DARKGOLDENROD);
         victoryTab.getChildren().addAll(label_Loser);
-        
+
         Para_Bens = new ImageView("imgs/Para-Bens.png");
         victoryTab.getChildren().addAll(Para_Bens);
         Para_Bens.setTranslateX(140);
         Para_Bens.setTranslateY(250);
-        
-        
+
         sceneVictory = new Scene(victoryTab, 800, 600);
         stageVictory.setScene(sceneVictory);
         stageVictory.setY(200);
@@ -200,7 +202,7 @@ public class FXMLDocumentController implements Initializable {
         stageStat.close();
         stageTab.close();
     }
-    
+
     void makeStatusTable() {
         if (!gameStarted) {
             statTab = new AnchorPane();
@@ -230,7 +232,7 @@ public class FXMLDocumentController implements Initializable {
             label_actualPieceAtk = new Label("Atk: ");
             label_actualPieceAtk.setTranslateX(10);
             label_actualPieceAtk.setTranslateY(90);
-            label_actualPieceAtk.setFont(new Font("Times New Roman", 20));            
+            label_actualPieceAtk.setFont(new Font("Times New Roman", 20));
             statTab.getChildren().addAll(label_actualPieceAtk);
             //Label actualPiece Name
             label_actualPieceName = new Label("Name: ");
@@ -334,12 +336,12 @@ public class FXMLDocumentController implements Initializable {
             //Label actualPiece Title
             label_actualPiece = new Label("actualPiece");
             //Label actualPiece Stun
-            if(actualPiece.getStunState()){
+            if (actualPiece.getStunState()) {
                 label_actualPieceStun.setText("STUNNED");
                 label_actualPieceStun.setTextFill(Color.CYAN);
-            }            
+            }
             //Label actualPiece Rage
-            label_actualPieceAtk.setText("Atk: " + actualPiece.getDamage());            
+            label_actualPieceAtk.setText("Atk: " + actualPiece.getDamage());
             //Label actualPiece Name
             label_actualPieceName.setText("Name: " + actualPiece.getName());
             //Label actualPiece Player
@@ -349,9 +351,9 @@ public class FXMLDocumentController implements Initializable {
             //Label actualPiece Name
             label_actualPieceMp.setText("Mp: " + actualPiece.getMp() + "/" + actualPiece.getMpmax());
             //Fotinha actualPiece
-            actualPieceImg.setImage(new Image(actualPiece.getpath()));
+            actualPieceImg.setImage(new Image("imgs/" + actualPiece.getpath()));
         } //se for null
-        else {           
+        else {
             //Label actualPiece Title
             label_actualPiece = new Label("actualPiece");
             //Label actualPiece Stun
@@ -374,12 +376,12 @@ public class FXMLDocumentController implements Initializable {
         //se não for null
         if (selectedPiece != null) {
             //Label selectedPiece Stun
-            if(selectedPiece.getStunState()){
+            if (selectedPiece.getStunState()) {
                 label_selectedPieceStun.setText("STUNNED");
                 label_selectedPieceStun.setTextFill(Color.CYAN);
             }
             //Label selectedPiece Rage            
-            label_selectedPieceAtk.setText("Atk: " + selectedPiece.getDamage());            
+            label_selectedPieceAtk.setText("Atk: " + selectedPiece.getDamage());
             //Label selectedPiece Name
             label_selectedPieceName.setText("Name: " + selectedPiece.getName());
             //Label selectedPiece Player
@@ -389,7 +391,7 @@ public class FXMLDocumentController implements Initializable {
             //Label selectedPiece Name
             label_selectedPieceMp.setText("Mp: " + selectedPiece.getMp() + "/" + selectedPiece.getMpmax());
             //Fotinha selectedPiece
-            selectedPieceImg.setImage(new Image(selectedPiece.getpath()));
+            selectedPieceImg.setImage(new Image("imgs/" + selectedPiece.getpath()));
         } //se for null
         else {
             //Label selectedPiece Stun
@@ -458,8 +460,8 @@ public class FXMLDocumentController implements Initializable {
 
             //GUARDIAOS
             //String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 350, "Jin", 0, tam -3, 2, 30);
-            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 350, "Jin", 1, tam -6, 5, 30);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao0.png", 350, "Jin", 0, tam - 3, 2, 30);
+            makePiece("Guardiao_ao", "imgs/Guardiao_ao1.png", 350, "Jin", 1, 2, tam-3, 30);
             //GUERREROS
             makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 200, "Sieghart", 0, tam - 1, 4, 20);
             makePiece("Guerrero_rero", "imgs/Guerrero_rero0.png", 200, "Sieghart", 0, tam - 5, 0, 20);
@@ -696,9 +698,8 @@ public class FXMLDocumentController implements Initializable {
         actualPiece = null;
         refreshStatusTable();
         spelling = false;
-        
+
         //selectedPiece.apagarPoderzinho(tab, table, casa.getposX(), casa.getposY(), player);
-        
     }
 
     void makePiece(String classe, String foto, int hpMax, String name, int playerID, int initPosX, int initPosY, int mpMax) throws FileNotFoundException {
@@ -732,7 +733,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void setPlayer() {
-        if(!gameStarted){
+        if (!gameStarted) {
             player[0] = new Player_ayer();
             player[0].setNome(P1.getText());
             player[1] = new Player_ayer();
